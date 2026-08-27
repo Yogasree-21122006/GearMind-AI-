@@ -13,8 +13,6 @@ import {
   HelpCircle,
   BarChart3,
   FileText,
-  Menu,
-  X,
   Lock,
   History,
   Check
@@ -30,9 +28,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   onNavigateToLogin,
   onNavigateToSignUp,
 }) => {
-  // Mobile navigation state
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   // Workflow section active step (01 to 06)
   const [activeWorkflowStep, setActiveWorkflowStep] = useState<number>(1);
 
@@ -51,7 +46,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
-    setMobileMenuOpen(false);
   };
 
   // Workflow data
@@ -236,19 +230,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </div>
 
-        {/* Center: Desktop Navigation Links */}
-        <div className="hidden lg:flex items-center space-x-8 text-sm font-semibold text-slate-600">
-          <button onClick={() => scrollToSection('how-it-works')} className="hover:text-orange-600 transition-colors">How It Works</button>
-          <button onClick={() => scrollToSection('capabilities')} className="hover:text-orange-600 transition-colors">Capabilities</button>
-          <button onClick={() => scrollToSection('spotlight')} className="hover:text-orange-600 transition-colors">Product</button>
-          <button onClick={() => scrollToSection('how-to-use')} className="hover:text-orange-600 transition-colors">How to Use</button>
-          <button onClick={() => scrollToSection('safety')} className="hover:text-orange-600 transition-colors">Safety</button>
-          <button onClick={() => scrollToSection('faq')} className="hover:text-orange-600 transition-colors">FAQ</button>
-          <button onClick={() => scrollToSection('about')} className="hover:text-orange-600 transition-colors">About</button>
-        </div>
-
         {/* Right: Auth Action Buttons */}
-        <div className="hidden sm:flex items-center space-x-3.5">
+        <div className="flex items-center space-x-3.5">
           <button
             onClick={onNavigateToLogin}
             className="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-100 border border-slate-300 rounded-xl transition-smooth"
@@ -262,34 +245,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             Get Started <ArrowRight className="w-4 h-4 ml-1.5" />
           </button>
         </div>
-
-        {/* Mobile Hamburger Button */}
-        <div className="lg:hidden flex items-center">
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2.5 text-slate-600 hover:text-slate-900 rounded-lg"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
       </nav>
-
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-slate-200 px-6 py-5 space-y-4 text-sm font-semibold text-slate-700 shadow-md">
-          <button onClick={() => scrollToSection('how-it-works')} className="block w-full text-left py-1.5 hover:text-orange-600">How It Works</button>
-          <button onClick={() => scrollToSection('capabilities')} className="block w-full text-left py-1.5 hover:text-orange-600">Capabilities</button>
-          <button onClick={() => scrollToSection('spotlight')} className="block w-full text-left py-1.5 hover:text-orange-600">Product</button>
-          <button onClick={() => scrollToSection('how-to-use')} className="block w-full text-left py-1.5 hover:text-orange-600">How to Use</button>
-          <button onClick={() => scrollToSection('safety')} className="block w-full text-left py-1.5 hover:text-orange-600">Safety</button>
-          <button onClick={() => scrollToSection('faq')} className="block w-full text-left py-1.5 hover:text-orange-600">FAQ</button>
-          <button onClick={() => scrollToSection('about')} className="block w-full text-left py-1.5 hover:text-orange-600">About</button>
-          <div className="pt-3 border-t border-slate-200 flex gap-3">
-            <button onClick={onNavigateToLogin} className="flex-1 py-2.5 text-center font-semibold border border-slate-300 rounded-xl">Sign In</button>
-            <button onClick={onNavigateToSignUp} className="flex-1 py-2.5 text-center font-bold bg-orange-500 text-white rounded-xl">Get Started</button>
-          </div>
-        </div>
-      )}
 
       {/* ========================================================================= */}
       {/* 🚀 HERO SECTION & CONCEPTUAL WORKFLOW VISUALIZATION                       */}
