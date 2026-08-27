@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Lock, Mail, ArrowRight, Loader2, AlertCircle, KeyRound } from 'lucide-react';
+import { Sparkles, Lock, Mail, ArrowRight, Loader2, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 interface LoginProps {
@@ -43,11 +43,6 @@ export const Login: React.FC<LoginProps> = ({
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleQuickDemoFill = () => {
-    setEmail('demo.technician@maintenance.ai');
-    setPassword('DemoPass2026!');
   };
 
   return (
@@ -136,19 +131,7 @@ export const Login: React.FC<LoginProps> = ({
             </div>
           </form>
 
-          {/* Quick Demo Fill Shortcut */}
-          <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-            <span className="text-slate-500 font-medium">Evaluation preset:</span>
-            <button
-              type="button"
-              onClick={handleQuickDemoFill}
-              className="text-orange-600 hover:text-orange-700 font-bold flex items-center"
-            >
-              <KeyRound className="w-3.5 h-3.5 mr-1" /> Quick Demo Fill
-            </button>
-          </div>
-
-          <div className="mt-4 text-center text-sm text-slate-500">
+          <div className="mt-5 text-center text-sm text-slate-500">
             Don't have an account?{' '}
             <button
               onClick={onNavigateToSignUp}

@@ -1108,37 +1108,24 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </section>
 
       {/* ========================================================================= */}
-      {/* 🏢 ENTERPRISE FOOTER                                                      */}
+      {/* 🏢 CLEAN ENTERPRISE FOOTER                                                */}
       {/* ========================================================================= */}
-      <footer className="border-t border-slate-200 bg-white px-6 sm:px-12 py-10 text-xs text-slate-500 space-y-6">
+      <footer className="border-t border-slate-200 bg-white px-6 sm:px-12 py-8 text-sm text-slate-500">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-3">
-            <div className="w-7 h-7 rounded-lg bg-orange-500 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+            <div className="w-8 h-8 rounded-xl bg-orange-500 text-white flex items-center justify-center font-bold text-sm shadow-xs">
               G
             </div>
-            <span className="font-bold text-slate-900 text-sm uppercase">GearMind AI</span>
-            <span className="text-xs text-slate-400">• Autonomous Field Service Assistant</span>
+            <span className="font-bold text-slate-900 text-base uppercase">GearMind AI</span>
+            <span className="text-sm text-slate-400 font-medium">• Autonomous Field Service Assistant</span>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-6 font-semibold text-slate-600 text-xs sm:text-sm">
-            <button onClick={() => scrollToSection('how-it-works')} className="hover:text-slate-900">How It Works</button>
-            <button onClick={() => scrollToSection('capabilities')} className="hover:text-slate-900">Features</button>
-            <button onClick={() => scrollToSection('how-to-use')} className="hover:text-slate-900">How to Use</button>
-            <button onClick={() => scrollToSection('faq')} className="hover:text-slate-900">FAQ</button>
-            <button onClick={() => scrollToSection('about')} className="hover:text-slate-900">About</button>
-          </div>
-
-          <div className="flex items-center space-x-4 text-xs sm:text-sm font-semibold">
-            <button onClick={onNavigateToLogin} className="hover:text-slate-900">Sign In</button>
-            <button onClick={onNavigateToSignUp} className="text-orange-600 hover:text-orange-700">Create Account</button>
-          </div>
-        </div>
-
-        <div className="max-w-5xl mx-auto border-t border-slate-100 pt-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-2">
-          <div>© 2026 GearMind AI. All rights reserved.</div>
-          <div className="flex items-center space-x-2 text-emerald-600 font-semibold">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-            <span>OSHA 1910.147 LOTO Safety Aligned</span>
+          <div className="flex flex-col sm:flex-row items-center gap-4 text-sm text-slate-500 font-medium">
+            <div>© 2026 GearMind AI. All rights reserved.</div>
+            <div className="flex items-center space-x-2 text-emerald-600 font-semibold">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              <span>OSHA 1910.147 LOTO Safety Aligned</span>
+            </div>
           </div>
         </div>
       </footer>
