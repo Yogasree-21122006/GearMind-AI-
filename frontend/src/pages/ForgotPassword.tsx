@@ -39,36 +39,37 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onNavigateToLogi
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0F19] text-slate-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8 selection:bg-violet-600 selection:text-white">
+    <div className="min-h-screen bg-[#FAFAFA] text-slate-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8 selection:bg-orange-500 selection:text-white">
+      {/* Brand Header */}
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center space-y-2 relative z-10">
-        <div className="inline-flex w-10 h-10 rounded-md bg-gradient-to-br from-violet-600 to-indigo-700 items-center justify-center text-white shadow-ai-accent border border-violet-400/30 mb-2">
+        <div className="inline-flex w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 items-center justify-center text-white shadow-orange-glow border border-orange-300 mb-1">
           <Sparkles className="w-5 h-5 text-white" />
         </div>
-        <h2 className="text-xl font-bold tracking-tight text-white">Reset Account Password</h2>
-        <p className="text-xs text-slate-400">
+        <h2 className="text-xl font-black tracking-tight text-slate-900">Reset Account Password</h2>
+        <p className="text-xs text-slate-500 font-medium">
           Enter your registered email address to receive a secure recovery link.
         </p>
       </div>
 
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md relative z-10 px-4 sm:px-0">
-        <div className="bg-[#101726] border border-[#1E293B] py-7 px-6 shadow-2xl rounded-lg sm:px-8">
+        <div className="bg-white border border-slate-200 py-7 px-6 shadow-card-hover rounded-2xl sm:px-8">
           {error && (
-            <div className="mb-4 p-3 rounded-md bg-rose-950/70 border border-rose-800 text-rose-300 text-xs flex items-center space-x-2">
-              <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-400" />
+            <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center space-x-2">
+              <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-500" />
               <span>{error}</span>
             </div>
           )}
 
           {success && (
-            <div className="mb-4 p-3 rounded-md bg-emerald-950/70 border border-emerald-800 text-emerald-300 text-xs flex items-center space-x-2">
-              <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-emerald-400" />
+            <div className="mb-4 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center space-x-2">
+              <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-emerald-600" />
               <span>{success}</span>
             </div>
           )}
 
-          <form className="space-y-3.5 text-xs" onSubmit={handleSubmit}>
+          <form className="space-y-4 text-xs" onSubmit={handleSubmit}>
             <div>
-              <label className="block font-semibold text-slate-300 mb-1">Technician Work Email</label>
+              <label className="block font-bold text-slate-700 mb-1">Technician Work Email</label>
               <div className="relative">
                 <Mail className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
@@ -77,7 +78,7 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onNavigateToLogi
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="technician@plant.oem.com"
-                  className="w-full pl-8 pr-3 py-2 bg-[#0B0F19] border border-slate-700 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-violet-600 transition-smooth"
+                  className="w-full pl-8 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-smooth"
                 />
               </div>
             </div>
@@ -86,7 +87,7 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onNavigateToLogi
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full py-2.5 px-4 text-xs font-bold text-white bg-violet-600 hover:bg-violet-700 rounded-md shadow-card-subtle transition-smooth flex items-center justify-center ${
+                className={`w-full py-2.5 px-4 text-xs font-bold text-white bg-orange-500 hover:bg-orange-600 rounded-xl shadow-orange-glow transition-smooth flex items-center justify-center ${
                   loading ? 'opacity-70 cursor-not-allowed' : ''
                 }`}
               >
@@ -104,11 +105,11 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onNavigateToLogi
             </div>
           </form>
 
-          <div className="mt-4 text-center text-xs text-slate-400">
+          <div className="mt-4 text-center text-xs text-slate-500">
             Remembered your credentials?{' '}
             <button
               onClick={onNavigateToLogin}
-              className="font-bold text-violet-400 hover:text-violet-300 transition-colors underline"
+              className="font-bold text-orange-600 hover:text-orange-700 transition-colors underline"
             >
               Back to Sign In
             </button>

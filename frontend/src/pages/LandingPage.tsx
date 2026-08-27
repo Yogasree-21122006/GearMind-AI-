@@ -214,20 +214,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   ];
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] text-slate-900 flex flex-col font-sans selection:bg-violet-600 selection:text-white">
+    <div className="min-h-screen bg-[#FAFAFA] text-slate-900 flex flex-col font-sans selection:bg-orange-500 selection:text-white">
       {/* ========================================================================= */}
       {/* 🧭 20. PREMIUM STICKY NAVBAR                                              */}
       {/* ========================================================================= */}
-      <nav className="h-16 border-b border-slate-200/80 bg-white/90 backdrop-blur-md sticky top-0 z-50 px-6 sm:px-12 flex items-center justify-between transition-smooth">
+      <nav className="h-16 border-b border-slate-200/80 bg-white/95 backdrop-blur-md sticky top-0 z-50 px-6 sm:px-12 flex items-center justify-between shadow-xs">
         {/* Left: Brand Identity */}
         <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-700 flex items-center justify-center text-white shadow-violet-glow border border-violet-400/30">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 flex items-center justify-center text-white shadow-orange-glow border border-orange-300">
             <Sparkles className="w-4 h-4 text-white" />
           </div>
           <div>
             <div className="flex items-center space-x-1.5">
               <span className="text-xs font-black tracking-wider text-slate-900 uppercase">MAINTENANCE</span>
-              <span className="text-[10px] font-extrabold px-1.5 py-0.5 bg-violet-100 text-violet-800 rounded border border-violet-200">
+              <span className="text-[10px] font-extrabold px-1.5 py-0.5 bg-orange-100 text-orange-800 rounded border border-orange-200">
                 AI COPILOT
               </span>
             </div>
@@ -239,13 +239,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
         {/* Center: Desktop Navigation Links */}
         <div className="hidden lg:flex items-center space-x-7 text-xs font-semibold text-slate-600">
-          <button onClick={() => scrollToSection('how-it-works')} className="hover:text-violet-600 transition-colors">How It Works</button>
-          <button onClick={() => scrollToSection('capabilities')} className="hover:text-violet-600 transition-colors">Capabilities</button>
-          <button onClick={() => scrollToSection('spotlight')} className="hover:text-violet-600 transition-colors">Product</button>
-          <button onClick={() => scrollToSection('how-to-use')} className="hover:text-violet-600 transition-colors">How to Use</button>
-          <button onClick={() => scrollToSection('safety')} className="hover:text-violet-600 transition-colors">Safety</button>
-          <button onClick={() => scrollToSection('faq')} className="hover:text-violet-600 transition-colors">FAQ</button>
-          <button onClick={() => scrollToSection('about')} className="hover:text-violet-600 transition-colors">About</button>
+          <button onClick={() => scrollToSection('how-it-works')} className="hover:text-orange-600 transition-colors">How It Works</button>
+          <button onClick={() => scrollToSection('capabilities')} className="hover:text-orange-600 transition-colors">Capabilities</button>
+          <button onClick={() => scrollToSection('spotlight')} className="hover:text-orange-600 transition-colors">Product</button>
+          <button onClick={() => scrollToSection('how-to-use')} className="hover:text-orange-600 transition-colors">How to Use</button>
+          <button onClick={() => scrollToSection('safety')} className="hover:text-orange-600 transition-colors">Safety</button>
+          <button onClick={() => scrollToSection('faq')} className="hover:text-orange-600 transition-colors">FAQ</button>
+          <button onClick={() => scrollToSection('about')} className="hover:text-orange-600 transition-colors">About</button>
         </div>
 
         {/* Right: Auth Action Buttons */}
@@ -258,7 +258,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </button>
           <button
             onClick={onNavigateToSignUp}
-            className="px-4 py-1.5 text-xs font-semibold text-white bg-violet-600 hover:bg-violet-700 rounded-lg shadow-violet-glow transition-smooth flex items-center"
+            className="px-4 py-1.5 text-xs font-semibold text-white bg-orange-500 hover:bg-orange-600 rounded-lg shadow-orange-glow transition-smooth flex items-center"
           >
             Get Started <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
           </button>
@@ -278,16 +278,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-white border-b border-slate-200 px-6 py-4 space-y-3 text-xs font-semibold text-slate-700 shadow-md">
-          <button onClick={() => scrollToSection('how-it-works')} className="block w-full text-left py-1.5 hover:text-violet-600">How It Works</button>
-          <button onClick={() => scrollToSection('capabilities')} className="block w-full text-left py-1.5 hover:text-violet-600">Capabilities</button>
-          <button onClick={() => scrollToSection('spotlight')} className="block w-full text-left py-1.5 hover:text-violet-600">Product</button>
-          <button onClick={() => scrollToSection('how-to-use')} className="block w-full text-left py-1.5 hover:text-violet-600">How to Use</button>
-          <button onClick={() => scrollToSection('safety')} className="block w-full text-left py-1.5 hover:text-violet-600">Safety</button>
-          <button onClick={() => scrollToSection('faq')} className="block w-full text-left py-1.5 hover:text-violet-600">FAQ</button>
-          <button onClick={() => scrollToSection('about')} className="block w-full text-left py-1.5 hover:text-violet-600">About</button>
+          <button onClick={() => scrollToSection('how-it-works')} className="block w-full text-left py-1.5 hover:text-orange-600">How It Works</button>
+          <button onClick={() => scrollToSection('capabilities')} className="block w-full text-left py-1.5 hover:text-orange-600">Capabilities</button>
+          <button onClick={() => scrollToSection('spotlight')} className="block w-full text-left py-1.5 hover:text-orange-600">Product</button>
+          <button onClick={() => scrollToSection('how-to-use')} className="block w-full text-left py-1.5 hover:text-orange-600">How to Use</button>
+          <button onClick={() => scrollToSection('safety')} className="block w-full text-left py-1.5 hover:text-orange-600">Safety</button>
+          <button onClick={() => scrollToSection('faq')} className="block w-full text-left py-1.5 hover:text-orange-600">FAQ</button>
+          <button onClick={() => scrollToSection('about')} className="block w-full text-left py-1.5 hover:text-orange-600">About</button>
           <div className="pt-2 border-t border-slate-200 flex gap-2">
             <button onClick={onNavigateToLogin} className="flex-1 py-2 text-center border border-slate-300 rounded-lg">Sign In</button>
-            <button onClick={onNavigateToSignUp} className="flex-1 py-2 text-center bg-violet-600 text-white rounded-lg">Get Started</button>
+            <button onClick={onNavigateToSignUp} className="flex-1 py-2 text-center bg-orange-500 text-white rounded-lg">Get Started</button>
           </div>
         </div>
       )}
@@ -295,18 +295,18 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       {/* ========================================================================= */}
       {/* 🚀 4. HERO SECTION & 5. HERO VISUALIZATION                                 */}
       {/* ========================================================================= */}
-      <section className="relative pt-16 pb-16 px-6 sm:px-12 border-b border-slate-200/80 bg-gradient-to-b from-violet-50/40 via-white to-white">
+      <section className="relative pt-16 pb-16 px-6 sm:px-12 border-b border-slate-200/80 bg-gradient-to-b from-orange-50/50 via-amber-50/20 to-white">
         <div className="max-w-5xl mx-auto text-center space-y-6">
           {/* Eyebrow badge */}
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-violet-50 border border-violet-200 shadow-xs text-[11px] font-semibold text-violet-800">
-            <Sparkles className="w-3.5 h-3.5 text-violet-600" />
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-white border border-amber-300 shadow-xs text-[11px] font-semibold text-amber-900">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
             <span>Industrial Field Diagnostic Intelligence</span>
           </div>
 
           {/* Main Heading */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-tight">
             Diagnose Machinery Problems <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 via-indigo-600 to-violet-800">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-500 to-yellow-600">
               Before They Become Downtime.
             </span>
           </h1>
@@ -320,7 +320,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <button
               onClick={onNavigateToSignUp}
-              className="w-full sm:w-auto px-6 py-3 text-xs font-semibold text-white bg-violet-600 hover:bg-violet-700 rounded-xl shadow-violet-glow transition-smooth flex items-center justify-center hover:translate-y-[-1px]"
+              className="w-full sm:w-auto px-6 py-3 text-xs font-semibold text-white bg-orange-500 hover:bg-orange-600 rounded-xl shadow-orange-glow transition-smooth flex items-center justify-center hover:translate-y-[-1px]"
             >
               Get Started <ArrowRight className="w-3.5 h-3.5 ml-2" />
             </button>
@@ -334,15 +334,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
           {/* Hero Conceptual Workflow Mockup */}
           <div className="pt-8 max-w-4xl mx-auto">
-            <div className="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-card-hover text-left space-y-4">
+            <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-card-hover text-left space-y-4">
               {/* Header bar */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 gap-2">
                 <div className="flex items-center space-x-2.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-violet-600" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-orange-500" />
                   <span className="text-xs font-bold text-slate-900">Equipment Diagnosis • Centrifugal Slurry Pump (PUMP-204)</span>
                 </div>
                 <div className="flex items-center space-x-2 text-[11px]">
-                  <span className="px-2.5 py-0.5 bg-violet-50 text-violet-700 border border-violet-200 rounded-md font-semibold">
+                  <span className="px-2.5 py-0.5 bg-orange-50 text-orange-800 border border-orange-200 rounded-md font-semibold">
                     Confidence: 96%
                   </span>
                   <span className="px-2.5 py-0.5 bg-amber-50 text-amber-800 border border-amber-200 rounded-md font-semibold">
@@ -361,22 +361,22 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 </div>
 
                 {/* Step 2: Inspection */}
-                <div className="p-3 bg-slate-50 border border-slate-200/70 rounded-xl space-y-1">
-                  <div className="text-[10px] font-bold text-violet-600 uppercase">2. AI Inspection</div>
+                <div className="p-3 bg-orange-50/40 border border-orange-200/60 rounded-xl space-y-1">
+                  <div className="text-[10px] font-bold text-orange-600 uppercase">2. AI Inspection</div>
                   <div className="font-semibold text-slate-800 text-xs">Visual OCR Analysis</div>
                   <p className="text-[11px] text-slate-500">Identified suction line flange seepage</p>
                 </div>
 
                 {/* Step 3: Detection */}
-                <div className="p-3 bg-slate-50 border border-slate-200/70 rounded-xl space-y-1">
+                <div className="p-3 bg-amber-50/40 border border-amber-200/60 rounded-xl space-y-1">
                   <div className="text-[10px] font-bold text-amber-600 uppercase">3. Fault Detection</div>
                   <div className="font-semibold text-slate-800 text-xs">Cavitation Risk</div>
                   <p className="text-[11px] text-slate-500">Discharge pressure exceeds 6.5 bar limit</p>
                 </div>
 
                 {/* Step 4: Diagnosis */}
-                <div className="p-3 bg-slate-50 border border-slate-200/70 rounded-xl space-y-1">
-                  <div className="text-[10px] font-bold text-violet-600 uppercase">4. Diagnosis</div>
+                <div className="p-3 bg-orange-50/40 border border-orange-200/60 rounded-xl space-y-1">
+                  <div className="text-[10px] font-bold text-orange-600 uppercase">4. Diagnosis</div>
                   <div className="font-semibold text-slate-800 text-xs">Strainer Blockage</div>
                   <p className="text-[11px] text-slate-500">Verified in OEM Manual Section 4.2</p>
                 </div>
@@ -392,7 +392,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               {/* Bottom Citation & Explore */}
               <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
                 <span>Retrieved from: <strong className="text-slate-700">FlowServe_Mark3_Manual.pdf</strong> (Page 42, Similarity 0.94)</span>
-                <button onClick={onExploreDemo} className="text-violet-600 hover:text-violet-700 font-semibold flex items-center">
+                <button onClick={onExploreDemo} className="text-orange-600 hover:text-orange-700 font-semibold flex items-center">
                   Open Interactive Cockpit →
                 </button>
               </div>
@@ -412,8 +412,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
             {/* Value 1 */}
-            <div className="p-4 rounded-xl border border-slate-200 bg-[#FAFAFA] space-y-1.5 hover:border-violet-300 transition-smooth">
-              <div className="w-8 h-8 rounded-lg bg-violet-100 text-violet-700 flex items-center justify-center font-bold">
+            <div className="p-4 rounded-xl border border-slate-200 bg-[#FAFAFA] space-y-1.5 hover:border-orange-300 transition-smooth">
+              <div className="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
                 <Camera className="w-4 h-4" />
               </div>
               <h4 className="text-xs font-bold text-slate-900">AI Vision</h4>
@@ -423,8 +423,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
 
             {/* Value 2 */}
-            <div className="p-4 rounded-xl border border-slate-200 bg-[#FAFAFA] space-y-1.5 hover:border-violet-300 transition-smooth">
-              <div className="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
+            <div className="p-4 rounded-xl border border-slate-200 bg-[#FAFAFA] space-y-1.5 hover:border-amber-300 transition-smooth">
+              <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
                 <Activity className="w-4 h-4" />
               </div>
               <h4 className="text-xs font-bold text-slate-900">Diagnostic Intelligence</h4>
@@ -434,8 +434,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
 
             {/* Value 3 */}
-            <div className="p-4 rounded-xl border border-slate-200 bg-[#FAFAFA] space-y-1.5 hover:border-violet-300 transition-smooth">
-              <div className="w-8 h-8 rounded-lg bg-violet-100 text-violet-700 flex items-center justify-center font-bold">
+            <div className="p-4 rounded-xl border border-slate-200 bg-[#FAFAFA] space-y-1.5 hover:border-orange-300 transition-smooth">
+              <div className="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
                 <BookOpen className="w-4 h-4" />
               </div>
               <h4 className="text-xs font-bold text-slate-900">OEM Knowledge</h4>
@@ -445,7 +445,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
 
             {/* Value 4 */}
-            <div className="p-4 rounded-xl border border-slate-200 bg-[#FAFAFA] space-y-1.5 hover:border-violet-300 transition-smooth">
+            <div className="p-4 rounded-xl border border-slate-200 bg-[#FAFAFA] space-y-1.5 hover:border-emerald-300 transition-smooth">
               <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
                 <ShieldCheck className="w-4 h-4" />
               </div>
@@ -482,13 +482,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   onClick={() => setActiveWorkflowStep(idx + 1)}
                   className={`p-3 rounded-xl border text-left transition-smooth relative ${
                     isSelected
-                      ? 'bg-white border-violet-500 shadow-card-hover ring-2 ring-violet-500/20'
+                      ? 'bg-white border-orange-500 shadow-card-hover ring-2 ring-orange-500/20'
                       : 'bg-white/80 border-slate-200 hover:bg-white hover:border-slate-300'
                   }`}
                 >
                   <div className="flex items-center justify-between text-xs font-mono font-bold mb-1">
-                    <span className={isSelected ? 'text-violet-600' : 'text-slate-400'}>{step.num}</span>
-                    {isSelected && <span className="w-2 h-2 rounded-full bg-violet-600 animate-pulse" />}
+                    <span className={isSelected ? 'text-orange-600' : 'text-slate-400'}>{step.num}</span>
+                    {isSelected && <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />}
                   </div>
                   <div className="text-xs font-bold text-slate-800">{step.title}</div>
                   <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-2">{step.subtitle}</p>
@@ -505,10 +505,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 {/* Left 7 cols: Step explanation */}
                 <div className="md:col-span-7 space-y-3">
                   <div className="inline-flex items-center space-x-2">
-                    <span className="w-6 h-6 rounded-md bg-violet-600 text-white font-mono font-bold text-xs flex items-center justify-center">
+                    <span className="w-6 h-6 rounded-md bg-orange-500 text-white font-mono font-bold text-xs flex items-center justify-center">
                       {currentStep.num}
                     </span>
-                    <span className="text-xs font-bold uppercase tracking-wider text-violet-700 bg-violet-50 px-2 py-0.5 rounded border border-violet-200">
+                    <span className="text-xs font-bold uppercase tracking-wider text-orange-700 bg-orange-50 px-2 py-0.5 rounded border border-orange-200">
                       {currentStep.highlightTag}
                     </span>
                   </div>
@@ -524,7 +524,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   <div className="pt-2">
                     <button
                       onClick={onExploreDemo}
-                      className="px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg text-xs font-semibold transition-smooth flex items-center shadow-xs"
+                      className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-xs font-semibold transition-smooth flex items-center shadow-xs"
                     >
                       Try in Live Cockpit <ArrowRight className="w-3 h-3 ml-1.5" />
                     </button>
@@ -535,7 +535,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 <div className="md:col-span-5 bg-slate-900 rounded-xl p-4 border border-slate-800 text-xs space-y-2.5 text-slate-100">
                   <div className="flex items-center justify-between border-b border-slate-800 pb-2">
                     <span className="text-[10px] font-mono text-slate-400">Diagnostic Pipeline Stage {currentStep.num}</span>
-                    <span className="text-[10px] font-mono text-violet-400 font-semibold">{currentStep.highlightTag}</span>
+                    <span className="text-[10px] font-mono text-orange-400 font-semibold">{currentStep.highlightTag}</span>
                   </div>
 
                   <div className="p-3 bg-slate-800/80 rounded-lg border border-slate-700 space-y-1">
@@ -573,9 +573,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {/* Card 1: AI Visual Inspection */}
-            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-violet-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
+            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-orange-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
               <div className="space-y-2.5">
-                <div className="w-9 h-9 rounded-xl bg-violet-100 text-violet-700 flex items-center justify-center font-bold">
+                <div className="w-9 h-9 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
                   <Camera className="w-4 h-4" />
                 </div>
                 <h3 className="text-sm font-bold text-slate-900">AI Visual Inspection</h3>
@@ -583,15 +583,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   Identify visible equipment abnormalities using AI-assisted image analysis. Detects fluid seepage, thermal hotspots, and surface defects.
                 </p>
               </div>
-              <button onClick={onExploreDemo} className="text-xs font-semibold text-violet-600 hover:text-violet-700 flex items-center pt-2">
+              <button onClick={onExploreDemo} className="text-xs font-semibold text-orange-600 hover:text-orange-700 flex items-center pt-2">
                 Explore Visual Inspection →
               </button>
             </div>
 
             {/* Card 2: Diagnostic Copilot */}
-            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-violet-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
+            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-orange-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
               <div className="space-y-2.5">
-                <div className="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
+                <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
                   <Activity className="w-4 h-4" />
                 </div>
                 <h3 className="text-sm font-bold text-slate-900">Diagnostic Copilot</h3>
@@ -599,15 +599,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   Analyze symptoms and error codes to assist troubleshooting. Generates evidence-backed hypotheses with explicit confidence scores.
                 </p>
               </div>
-              <button onClick={onExploreDemo} className="text-xs font-semibold text-violet-600 hover:text-violet-700 flex items-center pt-2">
+              <button onClick={onExploreDemo} className="text-xs font-semibold text-orange-600 hover:text-orange-700 flex items-center pt-2">
                 Explore Diagnostic Copilot →
               </button>
             </div>
 
             {/* Card 3: OEM Knowledge Library */}
-            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-violet-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
+            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-orange-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
               <div className="space-y-2.5">
-                <div className="w-9 h-9 rounded-xl bg-violet-100 text-violet-700 flex items-center justify-center font-bold">
+                <div className="w-9 h-9 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
                   <BookOpen className="w-4 h-4" />
                 </div>
                 <h3 className="text-sm font-bold text-slate-900">OEM Knowledge Library</h3>
@@ -615,13 +615,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   Search technical manuals and relevant equipment documentation using 768-dimensional pgvector semantic indexing.
                 </p>
               </div>
-              <button onClick={onExploreDemo} className="text-xs font-semibold text-violet-600 hover:text-violet-700 flex items-center pt-2">
+              <button onClick={onExploreDemo} className="text-xs font-semibold text-orange-600 hover:text-orange-700 flex items-center pt-2">
                 Explore Manual Library →
               </button>
             </div>
 
             {/* Card 4: Error Code Intelligence */}
-            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-violet-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
+            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-orange-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
               <div className="space-y-2.5">
                 <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
                   <AlertTriangle className="w-4 h-4" />
@@ -631,15 +631,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   Understand standardized industrial error codes (e.g., E-101, E-201) and connect them immediately with verified causes and actions.
                 </p>
               </div>
-              <button onClick={onExploreDemo} className="text-xs font-semibold text-violet-600 hover:text-violet-700 flex items-center pt-2">
+              <button onClick={onExploreDemo} className="text-xs font-semibold text-orange-600 hover:text-orange-700 flex items-center pt-2">
                 Explore Error Code Intelligence →
               </button>
             </div>
 
             {/* Card 5: Maintenance History */}
-            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-violet-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
+            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-orange-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
               <div className="space-y-2.5">
-                <div className="w-9 h-9 rounded-xl bg-violet-100 text-violet-700 flex items-center justify-center font-bold">
+                <div className="w-9 h-9 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
                   <History className="w-4 h-4" />
                 </div>
                 <h3 className="text-sm font-bold text-slate-900">Maintenance History</h3>
@@ -647,15 +647,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   Track previous maintenance activities, resolution notes, and technician reviews to preserve institutional maintenance knowledge.
                 </p>
               </div>
-              <button onClick={onExploreDemo} className="text-xs font-semibold text-violet-600 hover:text-violet-700 flex items-center pt-2">
+              <button onClick={onExploreDemo} className="text-xs font-semibold text-orange-600 hover:text-orange-700 flex items-center pt-2">
                 Explore Maintenance History →
               </button>
             </div>
 
             {/* Card 6: Analytics & KPIs */}
-            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-violet-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
+            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-orange-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
               <div className="space-y-2.5">
-                <div className="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
+                <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
                   <BarChart3 className="w-4 h-4" />
                 </div>
                 <h3 className="text-sm font-bold text-slate-900">Analytics & KPIs</h3>
@@ -663,7 +663,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   Understand equipment health distributions, Mean Time to Repair (MTTR), recurring failure Pareto distributions, and operational trends.
                 </p>
               </div>
-              <button onClick={onExploreDemo} className="text-xs font-semibold text-violet-600 hover:text-violet-700 flex items-center pt-2">
+              <button onClick={onExploreDemo} className="text-xs font-semibold text-orange-600 hover:text-orange-700 flex items-center pt-2">
                 Explore Analytics & KPIs →
               </button>
             </div>
@@ -679,7 +679,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           {/* Spotlight 1: Visual Intelligence */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center text-left">
             <div className="md:col-span-6 space-y-3">
-              <div className="text-xs font-bold uppercase tracking-wider text-violet-700">Visual Intelligence</div>
+              <div className="text-xs font-bold uppercase tracking-wider text-orange-600">Visual Intelligence</div>
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
                 See problems before they become failures.
               </h2>
@@ -696,7 +696,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <div className="md:col-span-6 bg-white border border-slate-200 rounded-2xl p-5 shadow-card-subtle space-y-3">
               <div className="flex items-center justify-between border-b border-slate-100 pb-2 text-xs font-semibold text-slate-700">
                 <span>Visual Analysis Preview</span>
-                <span className="text-violet-600 font-mono text-[11px]">OCR Extraction</span>
+                <span className="text-orange-600 font-mono text-[11px]">OCR Extraction</span>
               </div>
               <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
                 <div className="flex items-center justify-between text-xs font-bold text-slate-900">
@@ -713,7 +713,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           {/* Spotlight 2: Diagnostic Intelligence */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center text-left">
             <div className="md:col-span-6 md:order-2 space-y-3">
-              <div className="text-xs font-bold uppercase tracking-wider text-violet-700">Diagnostic Intelligence</div>
+              <div className="text-xs font-bold uppercase tracking-wider text-orange-600">Diagnostic Intelligence</div>
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
                 Turn symptoms into actionable root causes.
               </h2>
@@ -733,8 +733,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 <span className="text-emerald-700 font-mono text-[11px] font-bold">Confidence: 96%</span>
               </div>
               <div className="space-y-2 text-xs">
-                <div className="p-3 bg-violet-50/50 border border-violet-100 rounded-xl space-y-1">
-                  <div className="text-[10px] font-bold uppercase text-violet-800">Error Code E-101</div>
+                <div className="p-3 bg-orange-50/50 border border-orange-100 rounded-xl space-y-1">
+                  <div className="text-[10px] font-bold uppercase text-orange-800">Error Code E-101</div>
                   <div className="font-bold text-slate-900">Probable Cause: High discharge pressure & cavitation</div>
                   <p className="text-[11px] text-slate-600">Suction strainer partial blockage causing downstream cavitation and mechanical seal stress.</p>
                 </div>
@@ -749,7 +749,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           {/* Spotlight 3: Knowledge at the Right Moment */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center text-left">
             <div className="md:col-span-6 space-y-3">
-              <div className="text-xs font-bold uppercase tracking-wider text-violet-700">Knowledge Intelligence</div>
+              <div className="text-xs font-bold uppercase tracking-wider text-orange-600">Knowledge Intelligence</div>
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
                 Technical knowledge at the right moment.
               </h2>
@@ -812,18 +812,18 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     onClick={() => setActiveHowToStep(item.step)}
                     className={`p-3.5 rounded-xl border transition-smooth cursor-pointer ${
                       isSelected
-                        ? 'bg-violet-50/60 border-violet-400 shadow-xs'
+                        ? 'bg-orange-50/60 border-orange-400 shadow-xs'
                         : 'bg-[#FAFAFA] border-slate-200 hover:bg-slate-100/70'
                     }`}
                   >
                     <div className="flex items-center space-x-3">
                       <span className={`w-6 h-6 rounded-md font-mono text-xs font-bold flex items-center justify-center ${
-                        isSelected ? 'bg-violet-600 text-white' : 'bg-slate-200 text-slate-600'
+                        isSelected ? 'bg-orange-500 text-white' : 'bg-slate-200 text-slate-600'
                       }`}>
                         {item.step}
                       </span>
                       <div className="space-y-0.5">
-                        <div className={`text-xs font-bold ${isSelected ? 'text-violet-900' : 'text-slate-900'}`}>
+                        <div className={`text-xs font-bold ${isSelected ? 'text-orange-900' : 'text-slate-900'}`}>
                           {item.title}
                         </div>
                         <p className="text-[11px] text-slate-500 line-clamp-1">{item.desc}</p>
@@ -842,7 +842,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   <div className="space-y-4">
                     <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                       <span className="text-xs font-mono text-slate-400">Step 0{current.step} Interface Preview</span>
-                      <span className="text-[10px] px-2 py-0.5 bg-violet-900/60 text-violet-300 border border-violet-700/50 rounded font-semibold">
+                      <span className="text-[10px] px-2 py-0.5 bg-orange-900/60 text-orange-300 border border-orange-700/50 rounded font-semibold">
                         {current.visual.tag}
                       </span>
                     </div>
@@ -859,7 +859,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
                     <div className="pt-2 flex justify-between items-center text-[11px] text-slate-400">
                       <span>Standard Operating Protocol</span>
-                      <button onClick={onExploreDemo} className="text-violet-400 hover:text-violet-300 font-semibold flex items-center">
+                      <button onClick={onExploreDemo} className="text-orange-400 hover:text-orange-300 font-semibold flex items-center">
                         Launch Demo Cockpit →
                       </button>
                     </div>
@@ -996,27 +996,27 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
 
             {/* Column 2: AI-Assisted Workflow */}
-            <div className="p-6 bg-violet-50/30 border border-violet-200 rounded-2xl space-y-4">
-              <div className="text-xs font-bold text-violet-700 uppercase tracking-wider">AI-Assisted Workflow</div>
+            <div className="p-6 bg-orange-50/30 border border-orange-200 rounded-2xl space-y-4">
+              <div className="text-xs font-bold text-orange-700 uppercase tracking-wider">AI-Assisted Workflow</div>
               <div className="space-y-3 text-xs">
-                <div className="p-3 bg-white border border-violet-200 rounded-xl text-slate-800 font-medium flex items-center shadow-xs">
-                  <span className="w-5 h-5 rounded-full bg-violet-600 text-white flex items-center justify-center text-[10px] font-bold mr-2.5">1</span>
+                <div className="p-3 bg-white border border-orange-200 rounded-xl text-slate-800 font-medium flex items-center shadow-xs">
+                  <span className="w-5 h-5 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px] font-bold mr-2.5">1</span>
                   Upload component photo or enter active error code
                 </div>
-                <div className="p-3 bg-white border border-violet-200 rounded-xl text-slate-800 font-medium flex items-center shadow-xs">
-                  <span className="w-5 h-5 rounded-full bg-violet-600 text-white flex items-center justify-center text-[10px] font-bold mr-2.5">2</span>
+                <div className="p-3 bg-white border border-orange-200 rounded-xl text-slate-800 font-medium flex items-center shadow-xs">
+                  <span className="w-5 h-5 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px] font-bold mr-2.5">2</span>
                   Sub-second 768d pgvector search across OEM manuals
                 </div>
-                <div className="p-3 bg-white border border-violet-200 rounded-xl text-slate-800 font-medium flex items-center shadow-xs">
-                  <span className="w-5 h-5 rounded-full bg-violet-600 text-white flex items-center justify-center text-[10px] font-bold mr-2.5">3</span>
+                <div className="p-3 bg-white border border-orange-200 rounded-xl text-slate-800 font-medium flex items-center shadow-xs">
+                  <span className="w-5 h-5 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px] font-bold mr-2.5">3</span>
                   Evidence-backed root cause with transparent confidence
                 </div>
-                <div className="p-3 bg-white border border-violet-200 rounded-xl text-slate-800 font-medium flex items-center shadow-xs">
-                  <span className="w-5 h-5 rounded-full bg-violet-600 text-white flex items-center justify-center text-[10px] font-bold mr-2.5">4</span>
+                <div className="p-3 bg-white border border-orange-200 rounded-xl text-slate-800 font-medium flex items-center shadow-xs">
+                  <span className="w-5 h-5 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px] font-bold mr-2.5">4</span>
                   Mandatory OSHA 1910 LOTO energy isolation verification
                 </div>
-                <div className="p-3 bg-white border border-violet-200 rounded-xl text-slate-800 font-medium flex items-center shadow-xs">
-                  <span className="w-5 h-5 rounded-full bg-violet-600 text-white flex items-center justify-center text-[10px] font-bold mr-2.5">5</span>
+                <div className="p-3 bg-white border border-orange-200 rounded-xl text-slate-800 font-medium flex items-center shadow-xs">
+                  <span className="w-5 h-5 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px] font-bold mr-2.5">5</span>
                   Work order logged to history with technician feedback
                 </div>
               </div>
@@ -1045,21 +1045,21 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-5 bg-white rounded-2xl border border-slate-200 space-y-2.5 shadow-card-subtle">
-              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider text-violet-700">The Problem</h4>
+              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider text-orange-600">The Problem</h4>
               <p className="text-xs text-slate-600 leading-relaxed font-normal">
                 Industrial machinery downtime costs manufacturing facilities thousands of dollars per hour. Technicians face complex documentation, unstandardized trouble codes, and hazardous energy sources.
               </p>
             </div>
 
             <div className="p-5 bg-white rounded-2xl border border-slate-200 space-y-2.5 shadow-card-subtle">
-              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider text-violet-700">The Technology</h4>
+              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider text-orange-600">The Technology</h4>
               <p className="text-xs text-slate-600 leading-relaxed font-normal">
                 We combine Gemini 2.0 Multimodal Vision AI for physical anomaly inspection with Supabase PostgreSQL pgvector 768-dimensional embeddings to guarantee grounded, non-hallucinated citations.
               </p>
             </div>
 
             <div className="p-5 bg-white rounded-2xl border border-slate-200 space-y-2.5 shadow-card-subtle">
-              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider text-violet-700">The Goal</h4>
+              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider text-orange-600">The Goal</h4>
               <p className="text-xs text-slate-600 leading-relaxed font-normal">
                 To equip field technicians with an intuitive, safety-grounded copilot that accelerates diagnosis, ensures full Lockout/Tagout compliance, and preserves organizational maintenance intelligence.
               </p>
@@ -1074,8 +1074,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       <section id="faq" className="py-16 px-6 sm:px-12 bg-white border-b border-slate-200/80">
         <div className="max-w-4xl mx-auto space-y-8 text-left">
           <div className="text-center space-y-2">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-violet-50 text-violet-800 border border-violet-200 text-[11px] font-semibold">
-              <HelpCircle className="w-3.5 h-3.5 text-violet-600" />
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-orange-50 text-orange-800 border border-orange-200 text-[11px] font-semibold">
+              <HelpCircle className="w-3.5 h-3.5 text-orange-500" />
               <span>Clear Answers</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
@@ -1096,10 +1096,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 >
                   <button
                     onClick={() => toggleFaq(idx)}
-                    className="w-full p-4 flex items-center justify-between text-left font-bold text-xs sm:text-sm text-slate-900 hover:text-violet-600 transition-colors"
+                    className="w-full p-4 flex items-center justify-between text-left font-bold text-xs sm:text-sm text-slate-900 hover:text-orange-600 transition-colors"
                   >
                     <span>{item.q}</span>
-                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${isOpen ? 'transform rotate-180 text-violet-600' : ''}`} />
+                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${isOpen ? 'transform rotate-180 text-orange-500' : ''}`} />
                   </button>
 
                   {isOpen && (
@@ -1117,25 +1117,25 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       {/* ========================================================================= */}
       {/* 🚀 16. FINAL CALL TO ACTION (CTA)                                         */}
       {/* ========================================================================= */}
-      <section className="py-16 px-6 sm:px-12 bg-gradient-to-r from-slate-900 via-indigo-950 to-violet-950 text-white text-center shadow-lg relative overflow-hidden">
+      <section className="py-16 px-6 sm:px-12 bg-gradient-to-r from-amber-500 via-orange-500 to-orange-600 text-white text-center shadow-lg relative overflow-hidden">
         <div className="max-w-3xl mx-auto space-y-5 relative z-10">
           <h2 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight">
             Ready to Make Maintenance Smarter?
           </h2>
-          <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto font-normal leading-relaxed">
+          <p className="text-xs sm:text-sm text-orange-100 max-w-xl mx-auto font-normal leading-relaxed">
             Inspect equipment. Understand failures. Act with confidence.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <button
               onClick={onNavigateToSignUp}
-              className="w-full sm:w-auto px-6 py-3 bg-violet-600 hover:bg-violet-700 text-white font-semibold text-xs rounded-xl shadow-violet-glow transition-smooth flex items-center justify-center"
+              className="w-full sm:w-auto px-6 py-3 bg-white text-orange-600 hover:bg-orange-50 font-semibold text-xs rounded-xl shadow-card-hover transition-smooth flex items-center justify-center"
             >
               Get Started <ArrowRight className="w-3.5 h-3.5 ml-2" />
             </button>
             <button
               onClick={onExploreDemo}
-              className="w-full sm:w-auto px-6 py-3 bg-slate-800/80 hover:bg-slate-800 text-slate-200 border border-slate-700 font-semibold text-xs rounded-xl transition-smooth"
+              className="w-full sm:w-auto px-6 py-3 bg-orange-700/60 hover:bg-orange-700 text-white border border-orange-300/60 font-semibold text-xs rounded-xl transition-smooth"
             >
               Explore the Platform
             </button>
@@ -1149,7 +1149,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       <footer className="border-t border-slate-200 bg-white px-6 sm:px-12 py-10 text-xs text-slate-500 space-y-6">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-2.5">
-            <div className="w-6 h-6 rounded-md bg-violet-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+            <div className="w-6 h-6 rounded-md bg-orange-500 text-white flex items-center justify-center font-bold text-xs shadow-xs">
               M
             </div>
             <span className="font-bold text-slate-800 uppercase">Maintenance AI Copilot</span>
@@ -1167,7 +1167,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
           <div className="flex items-center space-x-3">
             <button onClick={onNavigateToLogin} className="hover:text-slate-900 font-semibold">Sign In</button>
-            <button onClick={onNavigateToSignUp} className="text-violet-600 hover:text-violet-700 font-semibold">Create Account</button>
+            <button onClick={onNavigateToSignUp} className="text-orange-600 hover:text-orange-700 font-semibold">Create Account</button>
           </div>
         </div>
 

@@ -40,7 +40,9 @@ export default {
       },
       boxShadow: {
         'card-subtle': '0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.03)',
-        'card-hover': '0 10px 25px -5px rgba(124, 58, 237, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04)',
+        'card-hover': '0 10px 25px -5px rgba(249, 115, 22, 0.10), 0 8px 10px -6px rgba(0, 0, 0, 0.04)',
+        'orange-glow': '0 4px 20px -2px rgba(249, 115, 22, 0.25)',
+        'yellow-glow': '0 4px 15px -2px rgba(234, 179, 8, 0.25)',
         'violet-glow': '0 4px 20px -2px rgba(124, 58, 237, 0.25)',
       }
     },
