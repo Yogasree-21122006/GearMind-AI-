@@ -1,25 +1,23 @@
 import React, { useState } from 'react';
 import {
-  ShieldAlert,
   Sparkles,
   Camera,
   BookOpen,
   ArrowRight,
-  Wrench,
   Activity,
   ShieldCheck,
   CheckCircle2,
-  Gauge,
-  Thermometer,
   ChevronDown,
   AlertTriangle,
-  Database,
   Layers,
   HelpCircle,
-  ThumbsUp,
   BarChart3,
-  Server,
-  Play
+  FileText,
+  Menu,
+  X,
+  Lock,
+  History,
+  Check
 } from 'lucide-react';
 
 interface LandingPageProps {
@@ -33,700 +31,922 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   onNavigateToSignUp,
   onExploreDemo,
 }) => {
-  // Scenario selector for the live interactive hero showcase
-  const [activeTab, setActiveTab] = useState<'cavitation' | 'thermal' | 'nominal'>('cavitation');
+  // Mobile navigation state
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Workflow section active step (01 to 06)
   const [activeWorkflowStep, setActiveWorkflowStep] = useState<number>(1);
+
+  // "How to Use" active tab (1 to 6)
+  const [activeHowToStep, setActiveHowToStep] = useState<number>(1);
+
+  // FAQ accordion state
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const [checkedRepairs, setCheckedRepairs] = useState<number[]>([1]);
 
-  const toggleRepairCheck = (stepId: number) => {
-    if (checkedRepairs.includes(stepId)) {
-      setCheckedRepairs(checkedRepairs.filter((id) => id !== stepId));
-    } else {
-      setCheckedRepairs([...checkedRepairs, stepId]);
+  const toggleFaq = (index: number) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
+
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
     }
+    setMobileMenuOpen(false);
   };
 
-  const scenarios = {
-    cavitation: {
-      tag: 'CRITICAL ALARM',
-      code: 'FAULT E-101',
-      title: 'Centrifugal Pump Cavitation & Overpressure',
-      asset: 'PUMP-204 (ANSI Centrifugal Slurry Unit)',
-      image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80',
-      pressure: '8.2 bar',
-      pressureStatus: 'High (Limit 6.5)',
-      temp: '74.2 °C',
-      vibration: '5.4 mm/s',
-      confidence: 96,
-      visionOCR: 'Readout: 8.2 BAR • Lower Flange Fluid Seepage',
-      rootCause: 'Suction strainer partial blockage causing downstream cavitation and mechanical seal stress.',
-      lotoRequirement: 'Isolate 480V Breaker CB-3. Bleed residual pressure to 0 PSI before breaking flange bolts.',
-      manualMatch: 'FlowServe_Mark3_Manual.pdf (Page 42, Sec 4.2)',
-      similarity: '94.2%',
-      repairSteps: [
-        { id: 1, text: 'Lockout Breaker CB-3; verify zero voltage with calibrated multimeter.', tag: 'OSHA 1910.147' },
-        { id: 2, text: 'Open drain valve DV-02 to bleed casing pressure to 0.0 bar.', tag: 'Depressurize' },
-        { id: 3, text: 'Disassemble suction spool; clean debris from 50-mesh strainer basket.', tag: 'Solvent Flush' },
-        { id: 4, text: 'Reinstall with new Viton O-Ring #8841. Torque flange bolts to 45 Nm.', tag: 'Torque Spec' },
-      ],
-    },
-    thermal: {
-      tag: 'WARNING',
-      code: 'FAULT E-201',
-      title: 'Induction Motor Drive-End Thermal Runaway',
-      asset: 'MOT-312 (480V 3-Phase 75kW Induction Motor)',
-      image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80',
-      pressure: 'Nominal',
-      pressureStatus: 'Normal',
-      temp: '88.6 °C',
-      tempStatus: 'Overheat (> 80°C)',
-      vibration: '4.8 mm/s',
-      confidence: 93,
-      visionOCR: 'Thermal Scan: 88.6°C • Fan Shroud Particulate Clog',
-      rootCause: 'Restricted airflow coupled with degraded drive-end lithium grease causing thermal runaway.',
-      lotoRequirement: 'Lockout MCC-2 Cubicle 4. Attach lockout hasp. Allow housing to cool below 40°C.',
-      manualMatch: 'Siemens_1LA_Motor_Manual.pdf (Page 18, Sec 7.1)',
-      similarity: '91.8%',
-      repairSteps: [
-        { id: 1, text: 'De-energize Motor Control Center MCC-2 Cubicle 4 and attach tag.', tag: 'Arc Flash PPE' },
-        { id: 2, text: 'Vacuum cooling fins and clean debris from intake fan shroud.', tag: 'Airflow Restoration' },
-        { id: 3, text: 'Purge old grease; inject 15g Mobil Polyrex EM synthetic grease.', tag: 'Bearing Lube' },
-        { id: 4, text: 'Run 20-min test cycle and verify baseline temp stabilizes below 65°C.', tag: 'Thermal Verification' },
-      ],
-    },
-    nominal: {
-      tag: 'OPERATIONAL',
-      code: 'NOMINAL',
-      title: 'Rotary Screw Compressor Operating Optimally',
-      asset: 'COMP-018 (Continuous Rotary Screw Compressor)',
-      image: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1200&q=80',
-      pressure: '6.4 bar',
-      pressureStatus: 'Optimal',
-      temp: '62.0 °C',
-      vibration: '1.8 mm/s',
-      confidence: 99,
-      visionOCR: 'Digital Display: 6.4 BAR • Casing Clear • Oil Level Center',
-      rootCause: 'All telemetry metrics and visual parameters within factory OEM baseline tolerances.',
-      lotoRequirement: 'No immediate LOTO isolation needed. Standard personal protective equipment.',
-      manualMatch: 'AtlasCopco_GA_Manual.pdf (Page 88, Sec 2.1)',
-      similarity: '98.5%',
-      repairSteps: [
-        { id: 1, text: 'Record delta differential pressure across air/oil separator (0.2 bar).', tag: 'Telemetry Log' },
-        { id: 2, text: 'Verify oil level in sight glass is centered between min/max marks.', tag: 'Visual Check' },
-        { id: 3, text: 'Scheduled preventive element replacement in 340 operating hours.', tag: 'PM Schedule' },
-      ],
-    },
-  };
-
-  const current = scenarios[activeTab];
-
-  const workflowSteps = [
+  // Workflow data
+  const workflowData = [
     {
-      step: 1,
-      title: 'Multimodal Vision Inspection',
-      subtitle: 'Snap a photo of damaged parts or control panels',
-      desc: 'Technicians photograph machinery, analog gauges, digital displays, or fluid leaks. Gemini 2.0 Multimodal Vision extracts OCR error codes (e.g. E-101) while separating physical observations from inferences.',
-      image: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80',
-      tag: 'Gemini 2.0 Vision AI',
-      kpi: 'Sub-second Optical OCR',
+      num: '01',
+      title: 'Inspect',
+      subtitle: 'Upload an equipment image or provide maintenance information.',
+      desc: 'Technicians capture high-resolution imagery of machinery components, control panel error displays, or fluid leaks directly on the plant floor.',
+      previewTitle: 'Visual Capture & Telemetry Ingestion',
+      previewDetails: 'Component: Centrifugal Slurry Pump • Input: Suction line digital readout photograph',
+      highlightTag: 'Vision Ingestion',
     },
     {
-      step: 2,
-      title: 'OEM Manual Retrieval (pgvector)',
-      subtitle: 'Dense 768-dimensional semantic search',
-      desc: 'Uploaded OEM service manuals and electrical schematics are indexed as 768d vector embeddings in Supabase PostgreSQL. High-dimensional cosine search retrieves exact paragraph numbers, page citations, and torque limits.',
-      image: 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=800&q=80',
-      tag: 'Supabase pgvector 768d',
-      kpi: 'Exact Page & Section Citations',
+      num: '02',
+      title: 'Detect',
+      subtitle: 'AI analyzes visual conditions, symptoms, and error codes.',
+      desc: 'The vision model performs optical character recognition (OCR) on gauge readouts and separates physical surface wear from diagnostic conclusions.',
+      previewTitle: 'OCR Anomaly Detection',
+      previewDetails: 'Detected Error: E-101 • Gauge Reading: 8.2 bar (> 6.5 bar max threshold) • Anomaly: Flange seal seepage',
+      highlightTag: 'OCR & Anomaly Extraction',
     },
     {
-      step: 3,
-      title: 'Safety-First LOTO Protocols',
-      subtitle: 'OSHA 1910.147 Zero-Hazard Guardrails',
-      desc: 'Before generating physical repair sequences, GearMind AI strictly enforces Lockout/Tagout energy isolation protocols (breaker tags, residual pressure bleeding, arc-flash PPE) to guarantee technician safety.',
-      image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
-      tag: 'OSHA 1910.147 Compliant',
-      kpi: '100% Safety Compliance',
+      num: '03',
+      title: 'Diagnose',
+      subtitle: 'The diagnostic engine identifies likely causes and provides confidence information.',
+      desc: 'Multimodal reasoning cross-references detected error codes, visual parameters, and operating symptoms to isolate the probable mechanical root cause.',
+      previewTitle: 'Root Cause Hypothesis',
+      previewDetails: 'Diagnosis: Suction strainer partial obstruction causing cavitation • Confidence Score: 96%',
+      highlightTag: 'Multimodal Reasoning',
     },
     {
-      step: 4,
-      title: 'Guided Repair & RLHF Audit',
-      subtitle: 'Step-by-step remediation with technician validation',
-      desc: 'Engineers follow verified repair checklists with calibrated torque specifications. Once resolved, the technician reviews the AI accuracy, feeding human-in-the-loop telemetry back into the system ledger.',
-      image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80',
-      tag: 'RLHF Feedback Ledger',
-      kpi: 'Continuous Model Learning',
+      num: '04',
+      title: 'Verify',
+      subtitle: 'Relevant technical manuals and knowledge are retrieved to support the diagnosis.',
+      desc: 'Dense 768-dimensional vector embeddings search indexed OEM manuals to extract exact paragraph citations, mechanical tolerances, and wiring schematics.',
+      previewTitle: 'OEM Manual Retrieval (pgvector)',
+      previewDetails: 'Citation: FlowServe_Mark3_Manual.pdf • Page 42, Section 4.2 • Cosine Similarity: 0.94',
+      highlightTag: '768d Dense Retrieval',
+    },
+    {
+      num: '05',
+      title: 'Repair',
+      subtitle: 'Follow structured troubleshooting and safety guidance.',
+      desc: 'A verified step-by-step remediation plan is provided with mandatory Lockout/Tagout (LOTO) energy isolation protocols and calibrated torque limits.',
+      previewTitle: 'Guided Remediation & LOTO',
+      previewDetails: 'LOTO: Isolate 480V Breaker CB-3 • Pressure: Depressurize to 0.0 bar • Torque Spec: 45 Nm',
+      highlightTag: 'OSHA Safety Grounded',
+    },
+    {
+      num: '06',
+      title: 'Record',
+      subtitle: 'Capture the maintenance outcome and technician feedback.',
+      desc: 'The resolution is recorded to the maintenance audit trail, capturing technician feedback and validation to continuously refine system intelligence.',
+      previewTitle: 'Work Order Audit & Feedback',
+      previewDetails: 'Work Order #WO-8841 Closed • Resolution Time: 28 mins • Technician Validation: 5 Stars',
+      highlightTag: 'RLHF Audit Trail',
     },
   ];
 
-  const faqs = [
+  // "How to Use" step data
+  const howToData = [
     {
-      q: 'How does Gemini Multimodal Vision AI detect machine damage?',
-      a: 'Technicians upload photos of mechanical components, gauges, or control panels. The Gemini Multimodal Vision engine performs optical character recognition (OCR) on digital readouts and error codes while identifying physical wear patterns (fluid leaks, thermal oxidation, belt fraying) strictly separated from diagnostic inferences.',
+      step: 1,
+      title: 'Sign In',
+      desc: 'Create an account or sign in to access your secure maintenance workspace and asset watchlist.',
+      visual: {
+        header: 'Authentication Workspace',
+        body: 'Technician logged in with role-based access to industrial plant assets.',
+        tag: 'Secure Workspace',
+      },
     },
     {
-      q: 'How does pgvector manual retrieval find exact page numbers and torque specs?',
-      a: 'Uploaded OEM manuals (PDF/DOCX) are parsed and converted into 768-dimensional dense vector embeddings stored in Supabase PostgreSQL pgvector. When a query or fault code is received, high-dimensional cosine similarity matching retrieves the exact paragraph, page number, and mechanical tolerance limits.',
+      step: 2,
+      title: 'Select Equipment',
+      desc: 'Choose the asset from your registered fleet database or enter a new machine identifier.',
+      visual: {
+        header: 'Equipment Registry',
+        body: 'Asset: PUMP-204 (ANSI Centrifugal Slurry Pump) • Criticality: High • Facility: North Plant',
+        tag: 'Asset Selected',
+      },
     },
     {
-      q: 'Why is Lockout/Tagout (LOTO) safety enforced before repair steps?',
-      a: 'Industrial safety is paramount. In strict accordance with OSHA 1910.147, GearMind AI autonomously mandates electrical breaker lockouts, mechanical pressure bleeding, and required PPE before any physical intervention sequence is presented to prevent hazardous accidents.',
+      step: 3,
+      title: 'Inspect or Enter Symptoms',
+      desc: 'Upload an equipment photo, enter an active fault code (e.g. E-101), or describe symptoms in plain language.',
+      visual: {
+        header: 'Multimodal Input',
+        body: 'Image: pump_suction_line.jpg • Error Code: E-101 • Symptom: High discharge vibration',
+        tag: 'Inputs Processed',
+      },
     },
     {
-      q: 'Can I upload custom PDF manuals and equipment schematics?',
-      a: 'Yes! Navigate to the "OEM Manuals" tab in the command center to upload any manufacturer manual, electrical diagram, or plant SOP. The system automatically processes, embeds, and indexes the document for instant diagnostic retrieval.',
+      step: 4,
+      title: 'Review AI Diagnosis',
+      desc: 'Review the identified root cause, confidence score, and supporting OEM manual page citations.',
+      visual: {
+        header: 'Diagnostic Evaluation',
+        body: 'Root Cause: Cavitation from strainer obstruction • Confidence: 96% • OEM Grounded: Yes',
+        tag: 'Diagnosis Formulated',
+      },
     },
     {
-      q: 'What happens if a manual or fault code is not in the database?',
-      a: 'GearMind AI never hallucinates. If no corresponding OEM documentation chunk is found in the pgvector database, the system safely outputs a Low Confidence score (< 40%) and prompts the technician to consult manufacturer engineering support.',
+      step: 5,
+      title: 'Follow Recommended Actions',
+      desc: 'Execute the safety-verified sequence including Lockout/Tagout energy isolation and torque specifications.',
+      visual: {
+        header: 'Execution Checklist',
+        body: '1. Lockout Breaker CB-3 • 2. Bleed to 0 PSI • 3. Flush 50-mesh strainer • 4. Torque to 45 Nm',
+        tag: 'Safety Verified',
+      },
+    },
+    {
+      step: 6,
+      title: 'Record the Outcome',
+      desc: 'Save the completed maintenance record and provide technician feedback on diagnostic accuracy.',
+      visual: {
+        header: 'Maintenance History',
+        body: 'Record saved to asset ledger • Downtime avoided: 2.5 hrs • Feedback: Accurate diagnosis',
+        tag: 'History Updated',
+      },
+    },
+  ];
+
+  // FAQ data
+  const faqData = [
+    {
+      q: 'What is Maintenance AI Copilot?',
+      a: 'Maintenance AI Copilot is an autonomous field service assistant engineered for industrial technicians, maintenance engineers, and plant operations. It integrates multimodal vision AI, 768-dimensional OEM manual vector retrieval, and safety-grounded Lockout/Tagout (LOTO) protocols to accelerate troubleshooting and reduce equipment downtime.',
+    },
+    {
+      q: 'Who is it designed for?',
+      a: 'The platform is built specifically for industrial maintenance technicians, reliability engineers, field service personnel, and plant operations managers responsible for mission-critical mechanical, electrical, and hydraulic equipment.',
+    },
+    {
+      q: 'What can the AI analyze?',
+      a: 'The system analyzes equipment photographs (control panel displays, physical wear, fluid seepage), standardized diagnostic trouble codes (DTCs), operating symptoms, and temperature/pressure/vibration telemetry readouts.',
+    },
+    {
+      q: 'Can I upload equipment images?',
+      a: 'Yes. Technicians can upload photos taken from smartphones or ruggedized field tablets. The multimodal vision engine extracts OCR readouts and inspects visible physical abnormalities while keeping raw visual observations strictly separate from diagnostic conclusions.',
+    },
+    {
+      q: 'How does the diagnostic assistant work?',
+      a: 'The diagnostic assistant combines technician-provided symptoms, visual observations, and error codes with dense vector retrieval across uploaded OEM manuals. It cross-references the evidence to determine the probable root cause and supplies a step-by-step remediation plan.',
+    },
+    {
+      q: 'Does it use technical manuals?',
+      a: 'Yes. Official manufacturer service manuals, electrical schematics, and standard operating procedures (PDF/DOCX) are parsed and indexed as 768-dimensional dense vector embeddings in Supabase PostgreSQL pgvector. Queries retrieve exact page numbers and paragraph citations.',
+    },
+    {
+      q: 'Does the system provide safety guidance?',
+      a: 'Yes. In accordance with OSHA 1910.147 standards, the platform strictly mandates Lockout/Tagout (LOTO) energy isolation steps (e.g., electrical breaker isolation, residual pressure bleedoff, arc-flash PPE) prior to presenting physical disassembly instructions.',
+    },
+    {
+      q: 'Can maintenance history be tracked?',
+      a: 'Yes. Every diagnostic session and repair action is logged to an audit-ready maintenance history ledger. Technicians can review past interventions, examine recurring fault patterns, and evaluate fleet MTTR performance.',
     },
   ];
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] text-slate-900 flex flex-col font-sans selection:bg-orange-500 selection:text-white">
+    <div className="min-h-screen bg-[#FAFAFA] text-slate-900 flex flex-col font-sans selection:bg-violet-600 selection:text-white">
       {/* ========================================================================= */}
-      {/* 🧭 ENTERPRISE TOP NAVIGATION BAR                                          */}
+      {/* 🧭 20. PREMIUM STICKY NAVBAR                                              */}
       {/* ========================================================================= */}
-      <nav className="h-16 border-b border-slate-200 bg-white/95 backdrop-blur-md sticky top-0 z-50 px-6 sm:px-12 flex items-center justify-between shadow-xs">
-        <div className="flex items-center space-x-3 cursor-pointer" onClick={onExploreDemo}>
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 flex items-center justify-center text-white shadow-orange-glow border border-orange-300 transform hover:scale-105 transition-smooth">
-            <Sparkles className="w-4 h-4 text-white animate-pulse" />
+      <nav className="h-16 border-b border-slate-200/80 bg-white/90 backdrop-blur-md sticky top-0 z-50 px-6 sm:px-12 flex items-center justify-between transition-smooth">
+        {/* Left: Brand Identity */}
+        <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-700 flex items-center justify-center text-white shadow-violet-glow border border-violet-400/30">
+            <Sparkles className="w-4 h-4 text-white" />
           </div>
           <div>
             <div className="flex items-center space-x-1.5">
-              <span className="text-xs font-black tracking-wider text-slate-900">GEARMIND</span>
-              <span className="text-[10px] font-extrabold px-1.5 py-0.5 bg-orange-100 text-orange-800 rounded border border-orange-200">
+              <span className="text-xs font-black tracking-wider text-slate-900 uppercase">MAINTENANCE</span>
+              <span className="text-[10px] font-extrabold px-1.5 py-0.5 bg-violet-100 text-violet-800 rounded border border-violet-200">
                 AI COPILOT
               </span>
             </div>
             <p className="text-[9px] uppercase tracking-widest text-slate-500 font-semibold">
-              Autonomous Field Service Platform
+              Autonomous Field Service Assistant
             </p>
           </div>
         </div>
 
-        {/* Navigation Quick Links */}
-        <div className="hidden lg:flex items-center space-x-8 text-xs font-bold text-slate-600">
-          <a href="#how-it-works" className="hover:text-orange-600 transition-colors">How It Works</a>
-          <a href="#simulator" className="hover:text-orange-600 transition-colors">Live Simulator</a>
-          <a href="#architecture" className="hover:text-orange-600 transition-colors">Architecture</a>
-          <a href="#capabilities" className="hover:text-orange-600 transition-colors">Capabilities</a>
-          <a href="#faq" className="hover:text-orange-600 transition-colors">FAQ</a>
+        {/* Center: Desktop Navigation Links */}
+        <div className="hidden lg:flex items-center space-x-7 text-xs font-semibold text-slate-600">
+          <button onClick={() => scrollToSection('how-it-works')} className="hover:text-violet-600 transition-colors">How It Works</button>
+          <button onClick={() => scrollToSection('capabilities')} className="hover:text-violet-600 transition-colors">Capabilities</button>
+          <button onClick={() => scrollToSection('spotlight')} className="hover:text-violet-600 transition-colors">Product</button>
+          <button onClick={() => scrollToSection('how-to-use')} className="hover:text-violet-600 transition-colors">How to Use</button>
+          <button onClick={() => scrollToSection('safety')} className="hover:text-violet-600 transition-colors">Safety</button>
+          <button onClick={() => scrollToSection('faq')} className="hover:text-violet-600 transition-colors">FAQ</button>
+          <button onClick={() => scrollToSection('about')} className="hover:text-violet-600 transition-colors">About</button>
         </div>
 
-        {/* Authentication CTA buttons */}
-        <div className="flex items-center space-x-3">
+        {/* Right: Auth Action Buttons */}
+        <div className="hidden sm:flex items-center space-x-3">
           <button
             onClick={onNavigateToLogin}
-            className="px-3.5 py-1.5 text-xs font-bold text-slate-700 hover:text-slate-900 hover:bg-slate-100 border border-slate-300 rounded-lg transition-smooth shadow-xs"
+            className="px-3.5 py-1.5 text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-100 border border-slate-300 rounded-lg transition-smooth"
           >
             Sign In
           </button>
           <button
-            onClick={onExploreDemo}
-            className="px-4 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 rounded-lg shadow-orange-glow transition-smooth flex items-center transform hover:scale-[1.02]"
+            onClick={onNavigateToSignUp}
+            className="px-4 py-1.5 text-xs font-semibold text-white bg-violet-600 hover:bg-violet-700 rounded-lg shadow-violet-glow transition-smooth flex items-center"
           >
-            <Play className="w-3 h-3 mr-1.5 fill-current" /> Live Cockpit
+            Get Started <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+          </button>
+        </div>
+
+        {/* Mobile Hamburger Button */}
+        <div className="lg:hidden flex items-center">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 text-slate-600 hover:text-slate-900 rounded-lg"
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </nav>
 
+      {/* Mobile Drawer Menu */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden bg-white border-b border-slate-200 px-6 py-4 space-y-3 text-xs font-semibold text-slate-700 shadow-md">
+          <button onClick={() => scrollToSection('how-it-works')} className="block w-full text-left py-1.5 hover:text-violet-600">How It Works</button>
+          <button onClick={() => scrollToSection('capabilities')} className="block w-full text-left py-1.5 hover:text-violet-600">Capabilities</button>
+          <button onClick={() => scrollToSection('spotlight')} className="block w-full text-left py-1.5 hover:text-violet-600">Product</button>
+          <button onClick={() => scrollToSection('how-to-use')} className="block w-full text-left py-1.5 hover:text-violet-600">How to Use</button>
+          <button onClick={() => scrollToSection('safety')} className="block w-full text-left py-1.5 hover:text-violet-600">Safety</button>
+          <button onClick={() => scrollToSection('faq')} className="block w-full text-left py-1.5 hover:text-violet-600">FAQ</button>
+          <button onClick={() => scrollToSection('about')} className="block w-full text-left py-1.5 hover:text-violet-600">About</button>
+          <div className="pt-2 border-t border-slate-200 flex gap-2">
+            <button onClick={onNavigateToLogin} className="flex-1 py-2 text-center border border-slate-300 rounded-lg">Sign In</button>
+            <button onClick={onNavigateToSignUp} className="flex-1 py-2 text-center bg-violet-600 text-white rounded-lg">Get Started</button>
+          </div>
+        </div>
+      )}
+
       {/* ========================================================================= */}
-      {/* 🚀 HERO SECTION (CLEAN, BOLD, HIGH-IMPACT)                                */}
+      {/* 🚀 4. HERO SECTION & 5. HERO VISUALIZATION                                 */}
       {/* ========================================================================= */}
-      <section className="relative pt-14 pb-14 px-6 sm:px-12 border-b border-slate-200 bg-gradient-to-b from-orange-50/60 via-amber-50/20 to-white text-center">
-        <div className="max-w-4xl mx-auto space-y-5">
-          {/* Eyebrow Pill */}
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-white border border-amber-300 shadow-card-subtle text-[11px] font-bold text-amber-900">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-            <span>Industrial Field AI Engine v2.4 • Gemini Multimodal Vision + pgvector RAG</span>
+      <section className="relative pt-16 pb-16 px-6 sm:px-12 border-b border-slate-200/80 bg-gradient-to-b from-violet-50/40 via-white to-white">
+        <div className="max-w-5xl mx-auto text-center space-y-6">
+          {/* Eyebrow badge */}
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-violet-50 border border-violet-200 shadow-xs text-[11px] font-semibold text-violet-800">
+            <Sparkles className="w-3.5 h-3.5 text-violet-600" />
+            <span>Industrial Field Diagnostic Intelligence</span>
           </div>
 
-          {/* Main Title */}
+          {/* Main Heading */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-tight">
-            Diagnose Machinery Breakdowns in <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-500 to-yellow-600">
-              Seconds, Not Hours.
+            Diagnose Machinery Problems <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 via-indigo-600 to-violet-800">
+              Before They Become Downtime.
             </span>
           </h1>
 
-          {/* Subtitle */}
-          <p className="text-xs sm:text-sm text-slate-600 max-w-2xl mx-auto leading-relaxed font-medium">
-            Empower service engineers with instant Vision AI fault inspection, 768-dimensional OEM manual retrieval, standardized error code intelligence, and 100% safety-grounded LOTO troubleshooting sequences.
+          {/* Supporting line */}
+          <p className="text-xs sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed font-normal">
+            An AI-powered maintenance copilot that helps technicians inspect equipment, identify faults, retrieve technical knowledge, and follow guided troubleshooting workflows.
           </p>
 
-          {/* Action CTAs */}
+          {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <button
               onClick={onNavigateToSignUp}
-              className="w-full sm:w-auto px-6 py-3 text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 rounded-xl shadow-orange-glow transition-smooth flex items-center justify-center transform hover:scale-105"
+              className="w-full sm:w-auto px-6 py-3 text-xs font-semibold text-white bg-violet-600 hover:bg-violet-700 rounded-xl shadow-violet-glow transition-smooth flex items-center justify-center hover:translate-y-[-1px]"
             >
-              Get Started Free <ArrowRight className="w-3.5 h-3.5 ml-2" />
+              Get Started <ArrowRight className="w-3.5 h-3.5 ml-2" />
             </button>
             <button
-              onClick={onExploreDemo}
-              className="w-full sm:w-auto px-6 py-3 text-xs font-bold text-slate-800 bg-white hover:bg-slate-50 border border-slate-300 rounded-xl shadow-card-subtle transition-smooth flex items-center justify-center transform hover:scale-105"
+              onClick={() => scrollToSection('how-it-works')}
+              className="w-full sm:w-auto px-6 py-3 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-xl shadow-card-subtle transition-smooth flex items-center justify-center"
             >
-              Launch Live Demo Cockpit
+              Explore How It Works
             </button>
           </div>
 
-          {/* Live Trust Metrics Ribbon */}
-          <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto text-left">
-            <div className="p-3 bg-white rounded-xl border border-slate-200 shadow-xs">
-              <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Fleet Uptime</div>
-              <div className="text-lg font-black text-slate-900 mt-0.5">97.8%</div>
-              <div className="text-[9px] text-emerald-600 font-bold">↑ +2.4% MTTR Boost</div>
-            </div>
-            <div className="p-3 bg-white rounded-xl border border-slate-200 shadow-xs">
-              <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Dense Embeddings</div>
-              <div className="text-lg font-black text-orange-600 mt-0.5">768-dim</div>
-              <div className="text-[9px] text-slate-500 font-medium">pgvector Cosine Match</div>
-            </div>
-            <div className="p-3 bg-white rounded-xl border border-slate-200 shadow-xs">
-              <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Safety Clearance</div>
-              <div className="text-lg font-black text-emerald-600 mt-0.5">100%</div>
-              <div className="text-[9px] text-emerald-700 font-bold">OSHA 1910.147 LOTO</div>
-            </div>
-            <div className="p-3 bg-white rounded-xl border border-slate-200 shadow-xs">
-              <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Hallucination Risk</div>
-              <div className="text-lg font-black text-amber-600 mt-0.5">&lt; 1.2%</div>
-              <div className="text-[9px] text-slate-500 font-medium">Strict OEM Grounding</div>
+          {/* Hero Conceptual Workflow Mockup */}
+          <div className="pt-8 max-w-4xl mx-auto">
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-card-hover text-left space-y-4">
+              {/* Header bar */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 gap-2">
+                <div className="flex items-center space-x-2.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-violet-600" />
+                  <span className="text-xs font-bold text-slate-900">Equipment Diagnosis • Centrifugal Slurry Pump (PUMP-204)</span>
+                </div>
+                <div className="flex items-center space-x-2 text-[11px]">
+                  <span className="px-2.5 py-0.5 bg-violet-50 text-violet-700 border border-violet-200 rounded-md font-semibold">
+                    Confidence: 96%
+                  </span>
+                  <span className="px-2.5 py-0.5 bg-amber-50 text-amber-800 border border-amber-200 rounded-md font-semibold">
+                    Fault Code E-101
+                  </span>
+                </div>
+              </div>
+
+              {/* 5-Step Conceptual Pipeline visualization */}
+              <div className="grid grid-cols-1 sm:grid-cols-5 gap-2.5 text-xs">
+                {/* Step 1: Equipment */}
+                <div className="p-3 bg-slate-50 border border-slate-200/70 rounded-xl space-y-1">
+                  <div className="text-[10px] font-bold text-slate-400 uppercase">1. Industrial Asset</div>
+                  <div className="font-semibold text-slate-800 text-xs">ANSI Centrifugal Pump</div>
+                  <p className="text-[11px] text-slate-500">Operating at 8.2 bar discharge pressure</p>
+                </div>
+
+                {/* Step 2: Inspection */}
+                <div className="p-3 bg-slate-50 border border-slate-200/70 rounded-xl space-y-1">
+                  <div className="text-[10px] font-bold text-violet-600 uppercase">2. AI Inspection</div>
+                  <div className="font-semibold text-slate-800 text-xs">Visual OCR Analysis</div>
+                  <p className="text-[11px] text-slate-500">Identified suction line flange seepage</p>
+                </div>
+
+                {/* Step 3: Detection */}
+                <div className="p-3 bg-slate-50 border border-slate-200/70 rounded-xl space-y-1">
+                  <div className="text-[10px] font-bold text-amber-600 uppercase">3. Fault Detection</div>
+                  <div className="font-semibold text-slate-800 text-xs">Cavitation Risk</div>
+                  <p className="text-[11px] text-slate-500">Discharge pressure exceeds 6.5 bar limit</p>
+                </div>
+
+                {/* Step 4: Diagnosis */}
+                <div className="p-3 bg-slate-50 border border-slate-200/70 rounded-xl space-y-1">
+                  <div className="text-[10px] font-bold text-violet-600 uppercase">4. Diagnosis</div>
+                  <div className="font-semibold text-slate-800 text-xs">Strainer Blockage</div>
+                  <p className="text-[11px] text-slate-500">Verified in OEM Manual Section 4.2</p>
+                </div>
+
+                {/* Step 5: Guided Repair */}
+                <div className="p-3 bg-emerald-50/60 border border-emerald-200/70 rounded-xl space-y-1">
+                  <div className="text-[10px] font-bold text-emerald-700 uppercase">5. Guided Action</div>
+                  <div className="font-semibold text-slate-800 text-xs">LOTO & Flush</div>
+                  <p className="text-[11px] text-emerald-700">Isolate CB-3, flush 50-mesh basket</p>
+                </div>
+              </div>
+
+              {/* Bottom Citation & Explore */}
+              <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                <span>Retrieved from: <strong className="text-slate-700">FlowServe_Mark3_Manual.pdf</strong> (Page 42, Similarity 0.94)</span>
+                <button onClick={onExploreDemo} className="text-violet-600 hover:text-violet-700 font-semibold flex items-center">
+                  Open Interactive Cockpit →
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* ========================================================================= */}
-      {/* 📖 SECTION 1: HOW IT WORKS (STEP-BY-STEP VISUAL SHOWCASE)                  */}
+      {/* 🛡️ 7. TRUST & VALUE STRIP                                                 */}
       {/* ========================================================================= */}
-      <section id="how-it-works" className="py-16 px-6 sm:px-12 bg-white border-b border-slate-200">
-        <div className="max-w-5xl mx-auto space-y-12">
-          <div className="text-center space-y-2">
-            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-orange-50 text-orange-800 border border-orange-200 text-[11px] font-bold">
-              <Activity className="w-3 h-3 text-orange-500" />
-              <span>Step-by-Step Guided Field Workflow</span>
+      <section className="py-12 px-6 sm:px-12 bg-white border-b border-slate-200/80">
+        <div className="max-w-5xl mx-auto space-y-6 text-center">
+          <p className="text-xs uppercase font-bold tracking-widest text-slate-400">
+            Built for smarter maintenance decisions
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
+            {/* Value 1 */}
+            <div className="p-4 rounded-xl border border-slate-200 bg-[#FAFAFA] space-y-1.5 hover:border-violet-300 transition-smooth">
+              <div className="w-8 h-8 rounded-lg bg-violet-100 text-violet-700 flex items-center justify-center font-bold">
+                <Camera className="w-4 h-4" />
+              </div>
+              <h4 className="text-xs font-bold text-slate-900">AI Vision</h4>
+              <p className="text-[11px] text-slate-600 leading-relaxed font-normal">
+                Inspect equipment visually and extract digital display readouts.
+              </p>
             </div>
+
+            {/* Value 2 */}
+            <div className="p-4 rounded-xl border border-slate-200 bg-[#FAFAFA] space-y-1.5 hover:border-violet-300 transition-smooth">
+              <div className="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
+                <Activity className="w-4 h-4" />
+              </div>
+              <h4 className="text-xs font-bold text-slate-900">Diagnostic Intelligence</h4>
+              <p className="text-[11px] text-slate-600 leading-relaxed font-normal">
+                Turn symptoms and error codes into structured probable causes.
+              </p>
+            </div>
+
+            {/* Value 3 */}
+            <div className="p-4 rounded-xl border border-slate-200 bg-[#FAFAFA] space-y-1.5 hover:border-violet-300 transition-smooth">
+              <div className="w-8 h-8 rounded-lg bg-violet-100 text-violet-700 flex items-center justify-center font-bold">
+                <BookOpen className="w-4 h-4" />
+              </div>
+              <h4 className="text-xs font-bold text-slate-900">OEM Knowledge</h4>
+              <p className="text-[11px] text-slate-600 leading-relaxed font-normal">
+                Retrieve relevant technical documentation and exact torque ratings.
+              </p>
+            </div>
+
+            {/* Value 4 */}
+            <div className="p-4 rounded-xl border border-slate-200 bg-[#FAFAFA] space-y-1.5 hover:border-violet-300 transition-smooth">
+              <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                <ShieldCheck className="w-4 h-4" />
+              </div>
+              <h4 className="text-xs font-bold text-slate-900">Safety Guidance</h4>
+              <p className="text-[11px] text-slate-600 leading-relaxed font-normal">
+                Support structured Lockout/Tagout energy isolation workflows.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* 📖 8. "HOW IT WORKS" (INTERACTIVE WORKFLOW SECTION)                        */}
+      {/* ========================================================================= */}
+      <section id="how-it-works" className="py-16 px-6 sm:px-12 bg-[#FAFAFA] border-b border-slate-200/80">
+        <div className="max-w-5xl mx-auto space-y-10">
+          <div className="text-center space-y-2">
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-              How Field Technicians Use GearMind AI
+              From Inspection to Resolution
             </h2>
-            <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto font-medium">
-              From physical machine photo capture to sub-second OEM manual matching, LOTO safety verification, and guided repair.
+            <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto font-normal">
+              A simple workflow for complex machinery problems.
             </p>
           </div>
 
-          {/* 4-Step Interactive Visual Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {workflowSteps.map((step) => {
-              const isSelected = activeWorkflowStep === step.step;
+          {/* 6-Step Interactive Navigation Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+            {workflowData.map((step, idx) => {
+              const isSelected = activeWorkflowStep === idx + 1;
               return (
-                <div
-                  key={step.step}
-                  onClick={() => setActiveWorkflowStep(step.step)}
-                  className={`rounded-2xl border p-5 transition-smooth cursor-pointer text-left space-y-4 relative overflow-hidden ${
+                <button
+                  key={step.num}
+                  onClick={() => setActiveWorkflowStep(idx + 1)}
+                  className={`p-3 rounded-xl border text-left transition-smooth relative ${
                     isSelected
-                      ? 'bg-orange-50/30 border-orange-400 shadow-card-hover ring-2 ring-orange-400/20'
-                      : 'bg-white border-slate-200 shadow-card-subtle hover:border-slate-300'
+                      ? 'bg-white border-violet-500 shadow-card-hover ring-2 ring-violet-500/20'
+                      : 'bg-white/80 border-slate-200 hover:bg-white hover:border-slate-300'
                   }`}
                 >
-                  {/* Photo Container */}
-                  <div className="relative h-44 rounded-xl overflow-hidden border border-slate-200 group">
-                    <img
-                      src={step.image}
-                      alt={step.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-smooth duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent" />
-                    
-                    <div className="absolute top-3 left-3 px-2.5 py-1 bg-white/90 backdrop-blur-md rounded-lg text-[10px] font-bold text-slate-800 border border-slate-200 flex items-center space-x-1.5 shadow-xs">
-                      <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-                      <span>{step.tag}</span>
-                    </div>
-
-                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-[11px] font-bold">
-                      <span className="bg-orange-600/90 px-2 py-0.5 rounded text-[10px] font-mono">Step 0{step.step}</span>
-                      <span className="text-[10px] font-medium text-slate-200">{step.kpi}</span>
-                    </div>
+                  <div className="flex items-center justify-between text-xs font-mono font-bold mb-1">
+                    <span className={isSelected ? 'text-violet-600' : 'text-slate-400'}>{step.num}</span>
+                    {isSelected && <span className="w-2 h-2 rounded-full bg-violet-600 animate-pulse" />}
                   </div>
-
-                  {/* Content details */}
-                  <div className="space-y-1.5">
-                    <h3 className="text-base font-bold text-slate-900">
-                      {step.title}
-                    </h3>
-                    <p className="text-xs font-bold text-orange-600">
-                      {step.subtitle}
-                    </p>
-                    <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                      {step.desc}
-                    </p>
-                  </div>
-                </div>
+                  <div className="text-xs font-bold text-slate-800">{step.title}</div>
+                  <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-2">{step.subtitle}</p>
+                </button>
               );
             })}
           </div>
-        </div>
-      </section>
 
-      {/* ========================================================================= */}
-      {/* 🔴 SECTION 2: LIVE INTERACTIVE WORKSTATION SIMULATOR                      */}
-      {/* ========================================================================= */}
-      <section id="simulator" className="py-16 px-6 sm:px-12 bg-slate-50 border-b border-slate-200">
-        <div className="max-w-5xl mx-auto space-y-6 text-left">
-          {/* Header & Scenario Switchers */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div className="space-y-1">
-              <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-bold">
-                <Gauge className="w-3 h-3 text-amber-600" />
-                <span>Live Multimodal Diagnostic Cockpit Simulator</span>
-              </div>
-              <h2 className="text-xl sm:text-3xl font-black text-slate-900 tracking-tight">
-                Real-Time Equipment Diagnostic Cockpit
-              </h2>
-              <p className="text-xs text-slate-500 font-medium">
-                Click a fault scenario to see live vision OCR, pgvector manual citations, and LOTO checklists.
-              </p>
-            </div>
-
-            {/* Scenario Switcher Buttons */}
-            <div className="flex items-center p-1 bg-white rounded-xl border border-slate-200 space-x-1 flex-shrink-0 shadow-xs">
-              <button
-                onClick={() => setActiveTab('cavitation')}
-                className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-smooth flex items-center space-x-1.5 ${
-                  activeTab === 'cavitation'
-                    ? 'bg-orange-500 text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                <AlertTriangle className="w-3 h-3" />
-                <span>Fault E-101 (Cavitation)</span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('thermal')}
-                className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-smooth flex items-center space-x-1.5 ${
-                  activeTab === 'thermal'
-                    ? 'bg-orange-500 text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                <Thermometer className="w-3 h-3" />
-                <span>Fault E-201 (Thermal)</span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('nominal')}
-                className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-smooth flex items-center space-x-1.5 ${
-                  activeTab === 'nominal'
-                    ? 'bg-emerald-600 text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                <CheckCircle2 className="w-3 h-3" />
-                <span>Nominal State</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Simulator Cockpit Card */}
-          <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-card-hover space-y-5">
-            {/* Top Asset HUD */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3.5 border-b border-slate-100 gap-2">
-              <div className="flex items-center space-x-3">
-                <span className={`w-3 h-3 rounded-full ${activeTab === 'nominal' ? 'bg-emerald-500' : 'bg-rose-500 animate-ping'}`} />
-                <div>
-                  <h3 className="text-xs font-bold text-slate-900">{current.asset}</h3>
-                  <p className="text-[10px] text-slate-500 font-mono">{current.title}</p>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-2 text-[11px]">
-                <span className="font-mono px-2.5 py-1 bg-orange-50 text-orange-800 border border-orange-200 rounded-lg font-bold flex items-center">
-                  <Sparkles className="w-3 h-3 mr-1 text-orange-600" />
-                  AI Confidence: {current.confidence}%
-                </span>
-                <span className={`px-2.5 py-1 rounded-lg font-bold font-mono border ${
-                  activeTab === 'nominal'
-                    ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                    : 'bg-rose-50 text-rose-800 border-rose-200'
-                }`}>
-                  {current.code}
-                </span>
-              </div>
-            </div>
-
-            {/* Split Content: High-Res Real Machinery Photo (Left) & AI Reasoning (Right) */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-              {/* Left 5 Cols: Real Machine Inspection Photograph */}
-              <div className="lg:col-span-5 flex flex-col space-y-3">
-                <div className="relative h-64 sm:h-72 rounded-xl overflow-hidden border border-slate-200 shadow-sm group">
-                  <img
-                    src={current.image}
-                    alt={current.asset}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-smooth duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/30 to-transparent" />
-
-                  {/* Laser Scan Beam Overlay */}
-                  <div className="absolute left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-orange-400 to-transparent shadow-[0_0_12px_#f97316] animate-scanline z-20 pointer-events-none" />
-
-                  {/* Vision OCR Live Badge */}
-                  <div className="absolute top-3 left-3 px-2.5 py-1 bg-slate-900/90 backdrop-blur-md rounded-lg border border-slate-700 text-white text-[10px] font-mono flex items-center space-x-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>Gemini Vision OCR Active</span>
-                  </div>
-
-                  {/* Anomaly Callout Box */}
-                  <div className="absolute bottom-3 left-3 right-3 p-2.5 bg-slate-900/90 backdrop-blur-md rounded-xl border border-orange-500/50 text-white text-xs space-y-1">
-                    <div className="text-[10px] text-orange-400 font-bold uppercase tracking-wider flex items-center">
-                      <Camera className="w-3 h-3 mr-1" /> Vision Observation
-                    </div>
-                    <p className="text-[11px] text-slate-200 font-medium">{current.visionOCR}</p>
-                  </div>
-                </div>
-
-                {/* Telemetry Gauge Strip */}
-                <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                  <div className="p-2 bg-[#FAFAFA] rounded-xl border border-slate-200">
-                    <div className="flex items-center justify-center text-[10px] text-slate-500 font-bold">
-                      <Gauge className="w-3 h-3 mr-1 text-orange-500" /> Pressure
-                    </div>
-                    <p className="text-xs font-black text-slate-900 mt-0.5">{current.pressure}</p>
-                  </div>
-                  <div className="p-2 bg-[#FAFAFA] rounded-xl border border-slate-200">
-                    <div className="flex items-center justify-center text-[10px] text-slate-500 font-bold">
-                      <Thermometer className="w-3 h-3 mr-1 text-amber-500" /> Temp
-                    </div>
-                    <p className="text-xs font-black text-slate-900 mt-0.5">{current.temp}</p>
-                  </div>
-                  <div className="p-2 bg-[#FAFAFA] rounded-xl border border-slate-200">
-                    <div className="flex items-center justify-center text-[10px] text-slate-500 font-bold">
-                      <Activity className="w-3 h-3 mr-1 text-emerald-500" /> Vibration
-                    </div>
-                    <p className="text-xs font-black text-slate-900 mt-0.5">{current.vibration}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right 7 Cols: Grounded AI Reasoning & LOTO Checklist */}
-              <div className="lg:col-span-7 flex flex-col justify-between space-y-3">
-                {/* Root Cause Card */}
-                <div className="p-3.5 bg-[#FAFAFA] border border-slate-200 rounded-xl space-y-1">
-                  <div className="flex items-center text-orange-700 text-[11px] font-bold uppercase tracking-wider">
-                    <Wrench className="w-3.5 h-3.5 mr-1.5 text-orange-500" /> Root Cause Diagnosis
-                  </div>
-                  <p className="text-slate-700 text-[11px] leading-relaxed font-medium">
-                    {current.rootCause}
-                  </p>
-                </div>
-
-                {/* Mandatory LOTO Card */}
-                <div className="p-3.5 bg-rose-50/80 border border-rose-200 rounded-xl space-y-1">
-                  <div className="flex items-center text-rose-800 text-[11px] font-bold uppercase tracking-wider">
-                    <ShieldAlert className="w-3.5 h-3.5 mr-1.5 text-rose-600" /> Mandatory LOTO Energy Isolation (OSHA 1910.147)
-                  </div>
-                  <p className="text-slate-800 text-[11px] leading-relaxed font-semibold">
-                    {current.lotoRequirement}
-                  </p>
-                </div>
-
-                {/* Interactive Guided Repair Checklist */}
-                <div className="p-3.5 bg-white border border-slate-200 rounded-xl space-y-2">
-                  <div className="flex items-center justify-between text-[11px] font-bold text-slate-800">
-                    <span className="flex items-center">
-                      <CheckCircle2 className="w-3 h-3 mr-1 text-emerald-600" />
-                      Guided Physical Remediation Checklist
+          {/* Dynamic Central Visual Panel for Selected Step */}
+          {(() => {
+            const currentStep = workflowData[activeWorkflowStep - 1];
+            return (
+              <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-card-subtle grid grid-cols-1 md:grid-cols-12 gap-6 items-center text-left">
+                {/* Left 7 cols: Step explanation */}
+                <div className="md:col-span-7 space-y-3">
+                  <div className="inline-flex items-center space-x-2">
+                    <span className="w-6 h-6 rounded-md bg-violet-600 text-white font-mono font-bold text-xs flex items-center justify-center">
+                      {currentStep.num}
                     </span>
-                    <span className="text-slate-400 font-mono text-[10px]">
-                      {checkedRepairs.length} of {current.repairSteps.length} Steps Completed
+                    <span className="text-xs font-bold uppercase tracking-wider text-violet-700 bg-violet-50 px-2 py-0.5 rounded border border-violet-200">
+                      {currentStep.highlightTag}
                     </span>
                   </div>
 
-                  <div className="space-y-1.5">
-                    {current.repairSteps.map((step) => {
-                      const isChecked = checkedRepairs.includes(step.id);
-                      return (
-                        <div
-                          key={step.id}
-                          onClick={() => toggleRepairCheck(step.id)}
-                          className={`p-2 rounded-lg border flex items-center justify-between text-xs cursor-pointer transition-smooth ${
-                            isChecked
-                              ? 'bg-emerald-50/60 border-emerald-200 text-slate-900'
-                              : 'bg-[#FAFAFA] border-slate-200 text-slate-600 hover:bg-slate-100'
-                          }`}
-                        >
-                          <div className="flex items-center space-x-2">
-                            <div className={`w-4 h-4 rounded flex items-center justify-center text-[10px] font-bold ${
-                              isChecked ? 'bg-emerald-600 text-white' : 'border border-slate-400 text-transparent'
-                            }`}>
-                              ✓
-                            </div>
-                            <span className={`text-[11px] ${isChecked ? 'line-through text-slate-500' : 'font-medium'}`}>
-                              {step.text}
-                            </span>
-                          </div>
-                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 flex-shrink-0">
-                            {step.tag}
-                          </span>
-                        </div>
-                      );
-                    })}
+                  <h3 className="text-lg font-bold text-slate-900">
+                    {currentStep.title} — {currentStep.subtitle}
+                  </h3>
+
+                  <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                    {currentStep.desc}
+                  </p>
+
+                  <div className="pt-2">
+                    <button
+                      onClick={onExploreDemo}
+                      className="px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg text-xs font-semibold transition-smooth flex items-center shadow-xs"
+                    >
+                      Try in Live Cockpit <ArrowRight className="w-3 h-3 ml-1.5" />
+                    </button>
                   </div>
                 </div>
 
-                {/* OEM Citation Footer */}
-                <div className="pt-2 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-500">
-                  <span className="font-mono font-medium truncate max-w-sm">
-                    📚 OEM Match: {current.manualMatch} ({current.similarity})
-                  </span>
-                  <button
-                    onClick={onExploreDemo}
-                    className="text-orange-600 hover:text-orange-700 font-bold flex items-center"
-                  >
-                    Open Live Cockpit Demo →
-                  </button>
+                {/* Right 5 cols: Structured UI Visual Card */}
+                <div className="md:col-span-5 bg-slate-900 rounded-xl p-4 border border-slate-800 text-xs space-y-2.5 text-slate-100">
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                    <span className="text-[10px] font-mono text-slate-400">Diagnostic Pipeline Stage {currentStep.num}</span>
+                    <span className="text-[10px] font-mono text-violet-400 font-semibold">{currentStep.highlightTag}</span>
+                  </div>
+
+                  <div className="p-3 bg-slate-800/80 rounded-lg border border-slate-700 space-y-1">
+                    <div className="text-[10px] font-bold text-slate-400 uppercase">Current Telemetry & Observation</div>
+                    <div className="text-xs font-bold text-white">{currentStep.previewTitle}</div>
+                    <p className="text-[11px] text-slate-300 leading-snug">{currentStep.previewDetails}</p>
+                  </div>
+
+                  <div className="flex items-center justify-between text-[10px] text-slate-400 pt-1">
+                    <span>Evidence-Backed RAG</span>
+                    <span className="text-emerald-400 font-semibold flex items-center">
+                      <Check className="w-3 h-3 mr-0.5" /> Verified
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            );
+          })()}
         </div>
       </section>
 
       {/* ========================================================================= */}
-      {/* ⚙️ SECTION 3: SYSTEM ARCHITECTURE HUD                                     */}
+      {/* 💼 9. PRODUCT CAPABILITIES (ASYMMETRIC GRID)                              */}
       {/* ========================================================================= */}
-      <section id="architecture" className="py-16 px-6 sm:px-12 bg-white border-b border-slate-200">
-        <div className="max-w-5xl mx-auto space-y-10 text-left">
-          <div className="text-center space-y-2">
-            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-orange-50 text-orange-800 border border-orange-200 text-[11px] font-bold">
-              <Layers className="w-3 h-3 text-orange-500" />
-              <span>Modern Engineering Stack</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-              Industrial AI System Architecture
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto font-medium">
-              High-concurrency async Python FastAPI backend paired with Supabase PostgreSQL pgvector and Gemini 2.0 Vision.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-5 bg-[#FAFAFA] border border-slate-200 rounded-2xl space-y-2 shadow-card-subtle">
-              <div className="w-9 h-9 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
-                <Camera className="w-4 h-4" />
-              </div>
-              <h4 className="text-xs font-bold text-slate-900">Gemini 2.0 Flash Vision</h4>
-              <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
-                Extracts OCR readouts and inspects physical wear patterns without mixing observations with diagnostic inferences.
-              </p>
-            </div>
-
-            <div className="p-5 bg-[#FAFAFA] border border-slate-200 rounded-2xl space-y-2 shadow-card-subtle">
-              <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
-                <Database className="w-4 h-4" />
-              </div>
-              <h4 className="text-xs font-bold text-slate-900">PostgreSQL pgvector</h4>
-              <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
-                Dense 768-dimensional vector embeddings with HNSW cosine search for sub-second retrieval of OEM manual text.
-              </p>
-            </div>
-
-            <div className="p-5 bg-[#FAFAFA] border border-slate-200 rounded-2xl space-y-2 shadow-card-subtle">
-              <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
-                <ShieldCheck className="w-4 h-4" />
-              </div>
-              <h4 className="text-xs font-bold text-slate-900">OSHA 1910.147 LOTO</h4>
-              <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
-                Deterministic rule gates validating 480V electrical breaker isolation and residual pressure bleedoff before repair.
-              </p>
-            </div>
-
-            <div className="p-5 bg-[#FAFAFA] border border-slate-200 rounded-2xl space-y-2 shadow-card-subtle">
-              <div className="w-9 h-9 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
-                <Server className="w-4 h-4" />
-              </div>
-              <h4 className="text-xs font-bold text-slate-900">FastAPI & Vite React</h4>
-              <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
-                Ultra-fast asynchronous microservices paired with a light orange, yellow, and crisp white dashboard.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 💡 SECTION 4: ENTERPRISE CAPABILITIES MATRIX                              */}
-      {/* ========================================================================= */}
-      <section id="capabilities" className="py-16 px-6 sm:px-12 bg-slate-50 border-b border-slate-200">
+      <section id="capabilities" className="py-16 px-6 sm:px-12 bg-white border-b border-slate-200/80">
         <div className="max-w-5xl mx-auto space-y-10 text-left">
           <div className="text-center space-y-2">
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-              Enterprise Field Service Capabilities
+              Everything a Maintenance Team Needs
             </h2>
-            <p className="text-xs text-slate-500 max-w-lg mx-auto font-medium">
-              Everything required to diagnose, repair, and audit complex mission-critical machinery.
+            <p className="text-xs sm:text-sm text-slate-500 max-w-lg mx-auto font-normal">
+              A comprehensive toolkit to inspect, diagnose, repair, and audit complex industrial machinery.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <div className="bg-white border border-slate-200 hover:border-orange-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth shadow-card-subtle">
-              <div className="w-9 h-9 rounded-xl bg-orange-100 border border-orange-200 flex items-center justify-center text-orange-600">
-                <Camera className="w-4 h-4" />
+            {/* Card 1: AI Visual Inspection */}
+            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-violet-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
+              <div className="space-y-2.5">
+                <div className="w-9 h-9 rounded-xl bg-violet-100 text-violet-700 flex items-center justify-center font-bold">
+                  <Camera className="w-4 h-4" />
+                </div>
+                <h3 className="text-sm font-bold text-slate-900">AI Visual Inspection</h3>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  Identify visible equipment abnormalities using AI-assisted image analysis. Detects fluid seepage, thermal hotspots, and surface defects.
+                </p>
               </div>
-              <h3 className="text-sm font-bold text-slate-900">Multimodal Vision AI</h3>
-              <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                Upload control panel readouts, thermal scans, or mechanical damage. Extracts OCR error codes and identifies physical anomalies.
+              <button onClick={onExploreDemo} className="text-xs font-semibold text-violet-600 hover:text-violet-700 flex items-center pt-2">
+                Explore Visual Inspection →
+              </button>
+            </div>
+
+            {/* Card 2: Diagnostic Copilot */}
+            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-violet-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
+              <div className="space-y-2.5">
+                <div className="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
+                  <Activity className="w-4 h-4" />
+                </div>
+                <h3 className="text-sm font-bold text-slate-900">Diagnostic Copilot</h3>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  Analyze symptoms and error codes to assist troubleshooting. Generates evidence-backed hypotheses with explicit confidence scores.
+                </p>
+              </div>
+              <button onClick={onExploreDemo} className="text-xs font-semibold text-violet-600 hover:text-violet-700 flex items-center pt-2">
+                Explore Diagnostic Copilot →
+              </button>
+            </div>
+
+            {/* Card 3: OEM Knowledge Library */}
+            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-violet-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
+              <div className="space-y-2.5">
+                <div className="w-9 h-9 rounded-xl bg-violet-100 text-violet-700 flex items-center justify-center font-bold">
+                  <BookOpen className="w-4 h-4" />
+                </div>
+                <h3 className="text-sm font-bold text-slate-900">OEM Knowledge Library</h3>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  Search technical manuals and relevant equipment documentation using 768-dimensional pgvector semantic indexing.
+                </p>
+              </div>
+              <button onClick={onExploreDemo} className="text-xs font-semibold text-violet-600 hover:text-violet-700 flex items-center pt-2">
+                Explore Manual Library →
+              </button>
+            </div>
+
+            {/* Card 4: Error Code Intelligence */}
+            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-violet-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
+              <div className="space-y-2.5">
+                <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
+                  <AlertTriangle className="w-4 h-4" />
+                </div>
+                <h3 className="text-sm font-bold text-slate-900">Error Code Intelligence</h3>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  Understand standardized industrial error codes (e.g., E-101, E-201) and connect them immediately with verified causes and actions.
+                </p>
+              </div>
+              <button onClick={onExploreDemo} className="text-xs font-semibold text-violet-600 hover:text-violet-700 flex items-center pt-2">
+                Explore Error Code Intelligence →
+              </button>
+            </div>
+
+            {/* Card 5: Maintenance History */}
+            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-violet-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
+              <div className="space-y-2.5">
+                <div className="w-9 h-9 rounded-xl bg-violet-100 text-violet-700 flex items-center justify-center font-bold">
+                  <History className="w-4 h-4" />
+                </div>
+                <h3 className="text-sm font-bold text-slate-900">Maintenance History</h3>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  Track previous maintenance activities, resolution notes, and technician reviews to preserve institutional maintenance knowledge.
+                </p>
+              </div>
+              <button onClick={onExploreDemo} className="text-xs font-semibold text-violet-600 hover:text-violet-700 flex items-center pt-2">
+                Explore Maintenance History →
+              </button>
+            </div>
+
+            {/* Card 6: Analytics & KPIs */}
+            <div className="bg-[#FAFAFA] border border-slate-200 hover:border-violet-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth flex flex-col justify-between">
+              <div className="space-y-2.5">
+                <div className="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
+                  <BarChart3 className="w-4 h-4" />
+                </div>
+                <h3 className="text-sm font-bold text-slate-900">Analytics & KPIs</h3>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  Understand equipment health distributions, Mean Time to Repair (MTTR), recurring failure Pareto distributions, and operational trends.
+                </p>
+              </div>
+              <button onClick={onExploreDemo} className="text-xs font-semibold text-violet-600 hover:text-violet-700 flex items-center pt-2">
+                Explore Analytics & KPIs →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* 🔍 10. FEATURE SPOTLIGHT (3 ALTERNATING SECTIONS)                          */}
+      {/* ========================================================================= */}
+      <section id="spotlight" className="py-16 px-6 sm:px-12 bg-[#FAFAFA] border-b border-slate-200/80 space-y-16">
+        <div className="max-w-5xl mx-auto space-y-16">
+          {/* Spotlight 1: Visual Intelligence */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center text-left">
+            <div className="md:col-span-6 space-y-3">
+              <div className="text-xs font-bold uppercase tracking-wider text-violet-700">Visual Intelligence</div>
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                See problems before they become failures.
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                Visual inspection allows service engineers to upload smartphone photos of physical components or digital control panels. The vision engine automatically identifies visible abnormalities such as fluid seepage, belt wear, and overheating indications.
+              </p>
+              <ul className="text-xs text-slate-600 space-y-1.5 pt-1 font-medium">
+                <li className="flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-2 text-emerald-600" /> Digital gauge and OCR error code extraction</li>
+                <li className="flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-2 text-emerald-600" /> Separation of raw observation from diagnostic inference</li>
+                <li className="flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-2 text-emerald-600" /> Instant cross-referencing with machine operating parameters</li>
+              </ul>
+            </div>
+
+            <div className="md:col-span-6 bg-white border border-slate-200 rounded-2xl p-5 shadow-card-subtle space-y-3">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-2 text-xs font-semibold text-slate-700">
+                <span>Visual Analysis Preview</span>
+                <span className="text-violet-600 font-mono text-[11px]">OCR Extraction</span>
+              </div>
+              <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-900">
+                  <span>Detected Readout: 8.2 BAR</span>
+                  <span className="text-[10px] px-2 py-0.5 bg-rose-100 text-rose-800 rounded font-semibold">Overpressure</span>
+                </div>
+                <p className="text-[11px] text-slate-600">
+                  Visible anomaly: Minor fluid seepage detected around the lower suction flange gasket.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Spotlight 2: Diagnostic Intelligence */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center text-left">
+            <div className="md:col-span-6 md:order-2 space-y-3">
+              <div className="text-xs font-bold uppercase tracking-wider text-violet-700">Diagnostic Intelligence</div>
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                Turn symptoms into actionable root causes.
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                Instead of guessing or manually flipping through hundreds of manual pages, the diagnostic copilot combines symptoms and trouble codes to deliver probability-ranked root causes with transparent confidence scores.
+              </p>
+              <ul className="text-xs text-slate-600 space-y-1.5 pt-1 font-medium">
+                <li className="flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-2 text-emerald-600" /> Precise fault code mapping (e.g. Error Code E-101)</li>
+                <li className="flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-2 text-emerald-600" /> Evidence-backed hypothesis with confidence ratings</li>
+                <li className="flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-2 text-emerald-600" /> Low confidence fallback to prevent ungrounded hallucinations</li>
+              </ul>
+            </div>
+
+            <div className="md:col-span-6 md:order-1 bg-white border border-slate-200 rounded-2xl p-5 shadow-card-subtle space-y-3">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-2 text-xs font-semibold text-slate-700">
+                <span>Diagnostic Result</span>
+                <span className="text-emerald-700 font-mono text-[11px] font-bold">Confidence: 96%</span>
+              </div>
+              <div className="space-y-2 text-xs">
+                <div className="p-3 bg-violet-50/50 border border-violet-100 rounded-xl space-y-1">
+                  <div className="text-[10px] font-bold uppercase text-violet-800">Error Code E-101</div>
+                  <div className="font-bold text-slate-900">Probable Cause: High discharge pressure & cavitation</div>
+                  <p className="text-[11px] text-slate-600">Suction strainer partial blockage causing downstream cavitation and mechanical seal stress.</p>
+                </div>
+                <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-[11px] text-slate-700 flex items-center justify-between">
+                  <span>Recommended Action:</span>
+                  <strong className="text-slate-900">Inspect suction strainer flow</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Spotlight 3: Knowledge at the Right Moment */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center text-left">
+            <div className="md:col-span-6 space-y-3">
+              <div className="text-xs font-bold uppercase tracking-wider text-violet-700">Knowledge Intelligence</div>
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                Technical knowledge at the right moment.
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                Dense vector search indexes your organization's OEM service manuals, wiring schematics, and equipment handbooks. When a technician encounters a problem, relevant excerpts are delivered immediately.
+              </p>
+              <ul className="text-xs text-slate-600 space-y-1.5 pt-1 font-medium">
+                <li className="flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-2 text-emerald-600" /> Sub-second vector search across multi-page PDF documents</li>
+                <li className="flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-2 text-emerald-600" /> Exact page and section citations with similarity scores</li>
+                <li className="flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-2 text-emerald-600" /> Direct access to calibrated torque limits and part numbers</li>
+              </ul>
+            </div>
+
+            <div className="md:col-span-6 bg-white border border-slate-200 rounded-2xl p-5 shadow-card-subtle space-y-3">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-2 text-xs font-semibold text-slate-700">
+                <span>Knowledge Retrieval Search: "E-101"</span>
+                <span className="text-slate-400 font-mono text-[11px]">3 Matches Found</span>
+              </div>
+              <div className="space-y-2 text-xs">
+                <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-xl space-y-0.5">
+                  <div className="font-bold text-slate-900">1. Pump Maintenance Manual (Section 4.2)</div>
+                  <div className="text-[11px] text-slate-500">Suction strainer cleaning procedures & 45 Nm torque rating</div>
+                </div>
+                <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-xl space-y-0.5">
+                  <div className="font-bold text-slate-900">2. Pressure System Troubleshooting Guide</div>
+                  <div className="text-[11px] text-slate-500">Cavitation diagnostics and pressure relief valve settings</div>
+                </div>
+                <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-xl space-y-0.5">
+                  <div className="font-bold text-slate-900">3. Standard Operating Procedure (SOP-014)</div>
+                  <div className="text-[11px] text-slate-500">Lockout/Tagout energy isolation checklist for 480V pumps</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* 🚀 11. "HOW TO USE" ONBOARDING SECTION                                    */}
+      {/* ========================================================================= */}
+      <section id="how-to-use" className="py-16 px-6 sm:px-12 bg-white border-b border-slate-200/80">
+        <div className="max-w-5xl mx-auto space-y-10 text-left">
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              How to Use Maintenance AI Copilot
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500 max-w-lg mx-auto font-normal">
+              A structured 6-step workflow designed for field technicians and engineers.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Left 6 cols: Clickable step list */}
+            <div className="lg:col-span-6 space-y-2">
+              {howToData.map((item) => {
+                const isSelected = activeHowToStep === item.step;
+                return (
+                  <div
+                    key={item.step}
+                    onClick={() => setActiveHowToStep(item.step)}
+                    className={`p-3.5 rounded-xl border transition-smooth cursor-pointer ${
+                      isSelected
+                        ? 'bg-violet-50/60 border-violet-400 shadow-xs'
+                        : 'bg-[#FAFAFA] border-slate-200 hover:bg-slate-100/70'
+                    }`}
+                  >
+                    <div className="flex items-center space-x-3">
+                      <span className={`w-6 h-6 rounded-md font-mono text-xs font-bold flex items-center justify-center ${
+                        isSelected ? 'bg-violet-600 text-white' : 'bg-slate-200 text-slate-600'
+                      }`}>
+                        {item.step}
+                      </span>
+                      <div className="space-y-0.5">
+                        <div className={`text-xs font-bold ${isSelected ? 'text-violet-900' : 'text-slate-900'}`}>
+                          {item.title}
+                        </div>
+                        <p className="text-[11px] text-slate-500 line-clamp-1">{item.desc}</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Right 6 cols: Step Visual Card */}
+            <div className="lg:col-span-6 bg-slate-900 rounded-2xl p-6 border border-slate-800 text-white space-y-4 shadow-card-hover">
+              {(() => {
+                const current = howToData[activeHowToStep - 1];
+                return (
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                      <span className="text-xs font-mono text-slate-400">Step 0{current.step} Interface Preview</span>
+                      <span className="text-[10px] px-2 py-0.5 bg-violet-900/60 text-violet-300 border border-violet-700/50 rounded font-semibold">
+                        {current.visual.tag}
+                      </span>
+                    </div>
+
+                    <div className="space-y-2">
+                      <h4 className="text-sm font-bold text-white">{current.visual.header}</h4>
+                      <p className="text-xs text-slate-300 leading-relaxed">{current.visual.body}</p>
+                    </div>
+
+                    <div className="p-3 bg-slate-800/80 rounded-xl border border-slate-700 text-xs text-slate-300 space-y-1">
+                      <div className="text-[10px] uppercase font-bold text-slate-400">Workflow Action</div>
+                      <p className="text-[11px] text-slate-200 font-medium">{current.desc}</p>
+                    </div>
+
+                    <div className="pt-2 flex justify-between items-center text-[11px] text-slate-400">
+                      <span>Standard Operating Protocol</span>
+                      <button onClick={onExploreDemo} className="text-violet-400 hover:text-violet-300 font-semibold flex items-center">
+                        Launch Demo Cockpit →
+                      </button>
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* 🛡️ 12. DEDICATED SAFETY SECTION                                          */}
+      {/* ========================================================================= */}
+      <section id="safety" className="py-16 px-6 sm:px-12 bg-[#FAFAFA] border-b border-slate-200/80">
+        <div className="max-w-5xl mx-auto space-y-10 text-left">
+          <div className="text-center space-y-2">
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-[11px] font-semibold">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Safety-First Engineering</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              Designed with Maintenance Safety in Mind
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500 max-w-lg mx-auto font-normal">
+              Zero hazardous autonomous actuation. Built around OSHA 1910.147 Lockout/Tagout energy isolation standards.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="p-5 bg-white rounded-2xl border border-slate-200 space-y-2 shadow-card-subtle">
+              <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                <Lock className="w-4 h-4" />
+              </div>
+              <h4 className="text-xs font-bold text-slate-900">LOTO Protocol Awareness</h4>
+              <p className="text-[11px] text-slate-600 leading-relaxed font-normal">
+                Mandates electrical breaker lockout and hasp tagging before presenting mechanical repair instructions.
               </p>
             </div>
 
-            <div className="bg-white border border-slate-200 hover:border-amber-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth shadow-card-subtle">
-              <div className="w-9 h-9 rounded-xl bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-600">
-                <BookOpen className="w-4 h-4" />
-              </div>
-              <h3 className="text-sm font-bold text-slate-900">OEM Manual Retrieval</h3>
-              <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                768-dimensional dense vector embeddings in pgvector. Retrieves exact page-numbered troubleshooting steps and schematics.
-              </p>
-            </div>
-
-            <div className="bg-white border border-slate-200 hover:border-orange-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth shadow-card-subtle">
-              <div className="w-9 h-9 rounded-xl bg-orange-100 border border-orange-200 flex items-center justify-center text-orange-600">
+            <div className="p-5 bg-white rounded-2xl border border-slate-200 space-y-2 shadow-card-subtle">
+              <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
                 <ShieldCheck className="w-4 h-4" />
               </div>
-              <h3 className="text-sm font-bold text-slate-900">Safety-Grounded LOTO</h3>
-              <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                Zero hazardous autonomous actuation. Mandates Lockout/Tagout energy isolation protocols and required PPE before physical repair.
+              <h4 className="text-xs font-bold text-slate-900">Structured Troubleshooting</h4>
+              <p className="text-[11px] text-slate-600 leading-relaxed font-normal">
+                Follows standardized sequential checklists to eliminate skipped safety steps or omitted residual pressure checks.
               </p>
             </div>
 
-            <div className="bg-white border border-slate-200 hover:border-amber-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth shadow-card-subtle">
-              <div className="w-9 h-9 rounded-xl bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-600">
-                <Wrench className="w-4 h-4" />
+            <div className="p-5 bg-white rounded-2xl border border-slate-200 space-y-2 shadow-card-subtle">
+              <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                <CheckCircle2 className="w-4 h-4" />
               </div>
-              <h3 className="text-sm font-bold text-slate-900">Guided Troubleshooting</h3>
-              <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                Numbered repair sequences with specific torque ratings (e.g. 45 Nm) and required tool lists to accelerate MTTR.
+              <h4 className="text-xs font-bold text-slate-900">Technician Verification</h4>
+              <p className="text-[11px] text-slate-600 leading-relaxed font-normal">
+                Maintains human-in-the-loop validation, ensuring certified technicians verify zero voltage before physical contact.
               </p>
             </div>
 
-            <div className="bg-white border border-slate-200 hover:border-orange-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth shadow-card-subtle">
-              <div className="w-9 h-9 rounded-xl bg-orange-100 border border-orange-200 flex items-center justify-center text-orange-600">
-                <BarChart3 className="w-4 h-4" />
+            <div className="p-5 bg-white rounded-2xl border border-slate-200 space-y-2 shadow-card-subtle">
+              <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                <FileText className="w-4 h-4" />
               </div>
-              <h3 className="text-sm font-bold text-slate-900">Fleet Uptime Analytics</h3>
-              <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                Real-time dashboard tracking operational asset distributions, recurring failure Pareto charts, and resolution velocity.
+              <h4 className="text-xs font-bold text-slate-900">Evidence-Backed Guidance</h4>
+              <p className="text-[11px] text-slate-600 leading-relaxed font-normal">
+                Every torque specification and clearance limit is cited directly from OEM manufacturer service documentation.
               </p>
             </div>
 
-            <div className="bg-white border border-slate-200 hover:border-amber-400 hover:shadow-card-hover rounded-2xl p-5 space-y-3 transition-smooth shadow-card-subtle">
-              <div className="w-9 h-9 rounded-xl bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-600">
-                <ThumbsUp className="w-4 h-4" />
+            <div className="p-5 bg-white rounded-2xl border border-slate-200 space-y-2 shadow-card-subtle">
+              <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                <AlertTriangle className="w-4 h-4" />
               </div>
-              <h3 className="text-sm font-bold text-slate-900">Human-in-the-Loop RLHF</h3>
-              <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                Technicians review and validate diagnostic accuracy, feeding real-world resolution notes back into the continuous learning system.
+              <h4 className="text-xs font-bold text-slate-900">Critical Condition Warnings</h4>
+              <p className="text-[11px] text-slate-600 leading-relaxed font-normal">
+                High-visibility alert banners flag overpressure, high-voltage arc flash risks, and thermal runaway hazards.
+              </p>
+            </div>
+
+            <div className="p-5 bg-white rounded-2xl border border-slate-200 space-y-2 shadow-card-subtle">
+              <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                <History className="w-4 h-4" />
+              </div>
+              <h4 className="text-xs font-bold text-slate-900">Audit-Ready Safety Logs</h4>
+              <p className="text-[11px] text-slate-600 leading-relaxed font-normal">
+                Full documentation of all Lockout/Tagout verifications and maintenance sign-offs preserved for safety compliance audits.
               </p>
             </div>
           </div>
@@ -734,25 +954,140 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </section>
 
       {/* ========================================================================= */}
-      {/* ❓ SECTION 5: FREQUENTLY ASKED QUESTIONS (FAQ ACCORDION)                  */}
+      {/* 🔄 13. WHY MAINTENANCE AI COPILOT? (WORKFLOW TRANSFORMATION)              */}
       {/* ========================================================================= */}
-      <section id="faq" className="py-16 px-6 sm:px-12 bg-white border-b border-slate-200">
+      <section className="py-16 px-6 sm:px-12 bg-white border-b border-slate-200/80">
+        <div className="max-w-5xl mx-auto space-y-10 text-left">
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              From Reactive Maintenance to AI-Assisted Decisions
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500 max-w-lg mx-auto font-normal">
+              Compare the traditional troubleshooting path with the AI-guided workflow.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Column 1: Traditional Workflow */}
+            <div className="p-6 bg-[#FAFAFA] border border-slate-200 rounded-2xl space-y-4">
+              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">Traditional Workflow</div>
+              <div className="space-y-3 text-xs">
+                <div className="p-3 bg-white border border-slate-200 rounded-xl text-slate-700 font-medium flex items-center">
+                  <span className="w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px] font-bold mr-2.5">1</span>
+                  Machinery breakdown occurs unexpectedly
+                </div>
+                <div className="p-3 bg-white border border-slate-200 rounded-xl text-slate-700 font-medium flex items-center">
+                  <span className="w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px] font-bold mr-2.5">2</span>
+                  Manual search through paper manuals & binders
+                </div>
+                <div className="p-3 bg-white border border-slate-200 rounded-xl text-slate-700 font-medium flex items-center">
+                  <span className="w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px] font-bold mr-2.5">3</span>
+                  Trial-and-error manual diagnosis by individual tech
+                </div>
+                <div className="p-3 bg-white border border-slate-200 rounded-xl text-slate-700 font-medium flex items-center">
+                  <span className="w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px] font-bold mr-2.5">4</span>
+                  Unstructured repair with risk of forgotten LOTO
+                </div>
+                <div className="p-3 bg-white border border-slate-200 rounded-xl text-slate-700 font-medium flex items-center">
+                  <span className="w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px] font-bold mr-2.5">5</span>
+                  Resolution details lost without centralized audit
+                </div>
+              </div>
+            </div>
+
+            {/* Column 2: AI-Assisted Workflow */}
+            <div className="p-6 bg-violet-50/30 border border-violet-200 rounded-2xl space-y-4">
+              <div className="text-xs font-bold text-violet-700 uppercase tracking-wider">AI-Assisted Workflow</div>
+              <div className="space-y-3 text-xs">
+                <div className="p-3 bg-white border border-violet-200 rounded-xl text-slate-800 font-medium flex items-center shadow-xs">
+                  <span className="w-5 h-5 rounded-full bg-violet-600 text-white flex items-center justify-center text-[10px] font-bold mr-2.5">1</span>
+                  Upload component photo or enter active error code
+                </div>
+                <div className="p-3 bg-white border border-violet-200 rounded-xl text-slate-800 font-medium flex items-center shadow-xs">
+                  <span className="w-5 h-5 rounded-full bg-violet-600 text-white flex items-center justify-center text-[10px] font-bold mr-2.5">2</span>
+                  Sub-second 768d pgvector search across OEM manuals
+                </div>
+                <div className="p-3 bg-white border border-violet-200 rounded-xl text-slate-800 font-medium flex items-center shadow-xs">
+                  <span className="w-5 h-5 rounded-full bg-violet-600 text-white flex items-center justify-center text-[10px] font-bold mr-2.5">3</span>
+                  Evidence-backed root cause with transparent confidence
+                </div>
+                <div className="p-3 bg-white border border-violet-200 rounded-xl text-slate-800 font-medium flex items-center shadow-xs">
+                  <span className="w-5 h-5 rounded-full bg-violet-600 text-white flex items-center justify-center text-[10px] font-bold mr-2.5">4</span>
+                  Mandatory OSHA 1910 LOTO energy isolation verification
+                </div>
+                <div className="p-3 bg-white border border-violet-200 rounded-xl text-slate-800 font-medium flex items-center shadow-xs">
+                  <span className="w-5 h-5 rounded-full bg-violet-600 text-white flex items-center justify-center text-[10px] font-bold mr-2.5">5</span>
+                  Work order logged to history with technician feedback
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* 🏢 14. ABOUT US SECTION                                                   */}
+      {/* ========================================================================= */}
+      <section id="about" className="py-16 px-6 sm:px-12 bg-[#FAFAFA] border-b border-slate-200/80">
+        <div className="max-w-5xl mx-auto space-y-8 text-left">
+          <div className="text-center space-y-2">
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-200/80 text-slate-800 text-[11px] font-semibold">
+              <Layers className="w-3.5 h-3.5 text-slate-600" />
+              <span>Project Vision & Architecture</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              Built to Make Industrial Maintenance Smarter
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto font-normal">
+              An engineering-grounded approach to industrial diagnostic assistance.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-5 bg-white rounded-2xl border border-slate-200 space-y-2.5 shadow-card-subtle">
+              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider text-violet-700">The Problem</h4>
+              <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                Industrial machinery downtime costs manufacturing facilities thousands of dollars per hour. Technicians face complex documentation, unstandardized trouble codes, and hazardous energy sources.
+              </p>
+            </div>
+
+            <div className="p-5 bg-white rounded-2xl border border-slate-200 space-y-2.5 shadow-card-subtle">
+              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider text-violet-700">The Technology</h4>
+              <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                We combine Gemini 2.0 Multimodal Vision AI for physical anomaly inspection with Supabase PostgreSQL pgvector 768-dimensional embeddings to guarantee grounded, non-hallucinated citations.
+              </p>
+            </div>
+
+            <div className="p-5 bg-white rounded-2xl border border-slate-200 space-y-2.5 shadow-card-subtle">
+              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider text-violet-700">The Goal</h4>
+              <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                To equip field technicians with an intuitive, safety-grounded copilot that accelerates diagnosis, ensures full Lockout/Tagout compliance, and preserves organizational maintenance intelligence.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* ❓ 15. FREQUENTLY ASKED QUESTIONS (ACCORDION)                             */}
+      {/* ========================================================================= */}
+      <section id="faq" className="py-16 px-6 sm:px-12 bg-white border-b border-slate-200/80">
         <div className="max-w-4xl mx-auto space-y-8 text-left">
           <div className="text-center space-y-2">
-            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-orange-50 text-orange-800 border border-orange-200 text-[11px] font-bold">
-              <HelpCircle className="w-3 h-3 text-orange-500" />
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-violet-50 text-violet-800 border border-violet-200 text-[11px] font-semibold">
+              <HelpCircle className="w-3.5 h-3.5 text-violet-600" />
               <span>Clear Answers</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
               Frequently Asked Questions
             </h2>
-            <p className="text-xs text-slate-500 max-w-lg mx-auto font-medium">
-              Everything you need to know about GearMind AI's vision engine, vector retrieval, and safety protocols.
+            <p className="text-xs text-slate-500 max-w-lg mx-auto font-normal">
+              Everything you need to know about the platform's vision AI, vector search, and safety protocols.
             </p>
           </div>
 
           <div className="space-y-3 pt-2">
-            {faqs.map((item, idx) => {
+            {faqData.map((item, idx) => {
               const isOpen = openFaq === idx;
               return (
                 <div
@@ -760,15 +1095,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   className="border border-slate-200 rounded-xl overflow-hidden bg-[#FAFAFA] transition-smooth"
                 >
                   <button
-                    onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full p-4 flex items-center justify-between text-left font-bold text-xs sm:text-sm text-slate-900 hover:text-orange-600 transition-colors"
+                    onClick={() => toggleFaq(idx)}
+                    className="w-full p-4 flex items-center justify-between text-left font-bold text-xs sm:text-sm text-slate-900 hover:text-violet-600 transition-colors"
                   >
                     <span>{item.q}</span>
-                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${isOpen ? 'transform rotate-180 text-orange-500' : ''}`} />
+                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${isOpen ? 'transform rotate-180 text-violet-600' : ''}`} />
                   </button>
 
                   {isOpen && (
-                    <div className="px-4 pb-4 text-xs text-slate-600 leading-relaxed font-medium border-t border-slate-200/60 pt-3 bg-white">
+                    <div className="px-4 pb-4 text-xs text-slate-600 leading-relaxed font-normal border-t border-slate-200/60 pt-3 bg-white">
                       {item.a}
                     </div>
                   )}
@@ -780,59 +1115,67 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </section>
 
       {/* ========================================================================= */}
-      {/* 🔥 CALL-TO-ACTION (CTA) BANNER                                            */}
+      {/* 🚀 16. FINAL CALL TO ACTION (CTA)                                         */}
       {/* ========================================================================= */}
-      <section className="py-14 px-6 sm:px-12 bg-gradient-to-r from-amber-500 via-orange-500 to-orange-600 text-white text-center shadow-lg relative overflow-hidden">
-        <div className="max-w-3xl mx-auto space-y-4 relative z-10">
+      <section className="py-16 px-6 sm:px-12 bg-gradient-to-r from-slate-900 via-indigo-950 to-violet-950 text-white text-center shadow-lg relative overflow-hidden">
+        <div className="max-w-3xl mx-auto space-y-5 relative z-10">
           <h2 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight">
-            Ready to Eliminate Machinery Downtime?
+            Ready to Make Maintenance Smarter?
           </h2>
-          <p className="text-xs sm:text-sm text-orange-100 max-w-xl mx-auto font-medium leading-relaxed">
-            Equip your maintenance engineers with instant Multimodal Vision AI, OSHA-compliant LOTO safety sequences, and 768d vector retrieval.
+          <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto font-normal leading-relaxed">
+            Inspect equipment. Understand failures. Act with confidence.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <button
               onClick={onNavigateToSignUp}
-              className="w-full sm:w-auto px-6 py-3 bg-white text-orange-600 font-bold text-xs rounded-xl shadow-card-hover hover:bg-orange-50 transition-smooth transform hover:scale-105"
+              className="w-full sm:w-auto px-6 py-3 bg-violet-600 hover:bg-violet-700 text-white font-semibold text-xs rounded-xl shadow-violet-glow transition-smooth flex items-center justify-center"
             >
-              Get Started Free <ArrowRight className="w-3.5 h-3.5 inline ml-1" />
+              Get Started <ArrowRight className="w-3.5 h-3.5 ml-2" />
             </button>
             <button
               onClick={onExploreDemo}
-              className="w-full sm:w-auto px-6 py-3 bg-orange-700/60 text-white border border-orange-300 font-bold text-xs rounded-xl hover:bg-orange-700 transition-smooth"
+              className="w-full sm:w-auto px-6 py-3 bg-slate-800/80 hover:bg-slate-800 text-slate-200 border border-slate-700 font-semibold text-xs rounded-xl transition-smooth"
             >
-              Launch Live Demo Cockpit
+              Explore the Platform
             </button>
           </div>
         </div>
       </section>
 
       {/* ========================================================================= */}
-      {/* 🏢 ENTERPRISE FOOTER                                                      */}
+      {/* 🏢 17. ENTERPRISE FOOTER                                                  */}
       {/* ========================================================================= */}
-      <footer className="border-t border-slate-200 bg-white px-6 sm:px-12 py-8 text-xs text-slate-500 space-y-6">
+      <footer className="border-t border-slate-200 bg-white px-6 sm:px-12 py-10 text-xs text-slate-500 space-y-6">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-2.5">
-            <div className="w-6 h-6 rounded-md bg-orange-500 text-white flex items-center justify-center font-bold text-xs shadow-xs">
-              G
+            <div className="w-6 h-6 rounded-md bg-violet-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+              M
             </div>
-            <span className="font-bold text-slate-800">GearMind AI Copilot</span>
-            <span className="text-[10px] text-slate-400">• Industrial Operations Edition</span>
+            <span className="font-bold text-slate-800 uppercase">Maintenance AI Copilot</span>
+            <span className="text-[10px] text-slate-400">• Autonomous Field Service Assistant</span>
           </div>
 
-          <div className="flex items-center space-x-6 font-medium">
-            <button onClick={onNavigateToLogin} className="hover:text-slate-900">Sign In</button>
-            <button onClick={onNavigateToSignUp} className="hover:text-slate-900">Create Account</button>
-            <button onClick={onExploreDemo} className="hover:text-slate-900">Live Cockpit</button>
+          <div className="flex flex-wrap items-center justify-center gap-6 font-medium text-slate-600">
+            <button onClick={() => scrollToSection('spotlight')} className="hover:text-slate-900">Product</button>
+            <button onClick={() => scrollToSection('how-it-works')} className="hover:text-slate-900">How It Works</button>
+            <button onClick={() => scrollToSection('capabilities')} className="hover:text-slate-900">Features</button>
+            <button onClick={() => scrollToSection('how-to-use')} className="hover:text-slate-900">How to Use</button>
+            <button onClick={() => scrollToSection('faq')} className="hover:text-slate-900">FAQ</button>
+            <button onClick={() => scrollToSection('about')} className="hover:text-slate-900">About</button>
+          </div>
+
+          <div className="flex items-center space-x-3">
+            <button onClick={onNavigateToLogin} className="hover:text-slate-900 font-semibold">Sign In</button>
+            <button onClick={onNavigateToSignUp} className="text-violet-600 hover:text-violet-700 font-semibold">Create Account</button>
           </div>
         </div>
 
         <div className="max-w-5xl mx-auto border-t border-slate-100 pt-4 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400 gap-2">
-          <div>© 2026 GearMind AI. Built with Gemini Multimodal Vision + Supabase pgvector.</div>
-          <div className="flex items-center space-x-3 text-emerald-600 font-bold">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>OSHA 1910.147 Compliant Architecture</span>
+          <div>© 2026 Maintenance AI Copilot. All rights reserved.</div>
+          <div className="flex items-center space-x-2 text-emerald-600 font-semibold">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            <span>OSHA 1910.147 LOTO Safety Aligned</span>
           </div>
         </div>
       </footer>
