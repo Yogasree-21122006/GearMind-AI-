@@ -14,7 +14,6 @@ import {
   FileText
 } from 'lucide-react';
 import { AlertBanner } from '../components/AlertBanner';
-import { SmartLoader } from '../components/SmartLoader';
 import { diagnosticService, DiagnosticAnalysisResponse } from '../services/diagnosticService';
 import { assetService } from '../services/assetService';
 import { Asset, DiagnosticSession } from '../types';
@@ -293,12 +292,13 @@ export const DiagnosticAssistant: React.FC = () => {
 
           {/* Analyzing Loading State */}
           {analyzing && (
-            <SmartLoader
-              message="Multimodal Diagnostic Copilot Reasoning Active"
-              subMessage={analysisStep || 'Synthesizing Multimodal Evidence & Technical Manuals...'}
-              duration={3000}
-              variant="card"
-            />
+            <div className="bg-white border border-slate-200 rounded-xl p-8 shadow-card-subtle flex flex-col items-center justify-center text-center space-y-3">
+              <Loader2 className="w-8 h-8 text-orange-500 animate-spin" />
+              <div>
+                <h4 className="text-xs font-bold text-slate-900">Multimodal Diagnostic Copilot Reasoning Active</h4>
+                <p className="text-[11px] text-slate-500 mt-1 font-mono">{analysisStep}</p>
+              </div>
+            </div>
           )}
 
           {/* Structured Diagnostic Results Console */}

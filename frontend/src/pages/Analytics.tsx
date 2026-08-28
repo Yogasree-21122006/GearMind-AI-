@@ -6,11 +6,11 @@ import {
   ShieldCheck,
   PieChart,
   TrendingUp,
+  Loader2,
   RefreshCw
 } from 'lucide-react';
 import { StatCard } from '../components/StatCard';
 import { AlertBanner } from '../components/AlertBanner';
-import { SmartLoader } from '../components/SmartLoader';
 import { diagnosticService } from '../services/diagnosticService';
 import { errorCodeService, ErrorCode } from '../services/errorCodeService';
 import { DashboardMetrics } from '../types';
@@ -107,12 +107,9 @@ export const Analytics: React.FC = () => {
           </div>
 
           {loading ? (
-            <SmartLoader
-              message="Loading Error Code Catalog..."
-              subMessage="Fetching standardized industrial fault registry"
-              duration={1500}
-              variant="card"
-            />
+            <div className="py-8 flex justify-center text-slate-400">
+              <Loader2 className="w-5 h-5 animate-spin text-violet-600" />
+            </div>
           ) : errorCodes.length === 0 ? (
             <div className="text-center py-6 text-xs text-slate-400">
               No fault codes registered in the database catalog.

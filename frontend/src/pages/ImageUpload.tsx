@@ -8,7 +8,6 @@ import {
   Target
 } from 'lucide-react';
 import { AlertBanner } from '../components/AlertBanner';
-import { SmartLoader } from '../components/SmartLoader';
 import { assetService } from '../services/assetService';
 import { Asset, AssetImage } from '../types';
 
@@ -269,15 +268,6 @@ export const ImageUpload: React.FC = () => {
 
             {/* Visual Canvas Display */}
             <div className="relative min-h-[300px] max-h-[420px] bg-slate-900 rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden">
-              {uploading && (
-                <SmartLoader
-                  variant="overlay"
-                  message="Multimodal Vision AI Processing"
-                  subMessage="Uploading to Supabase & running component detection..."
-                  duration={3000}
-                />
-              )}
-
               {previewUrl ? (
                 <div className="relative w-full h-full flex items-center justify-center p-2">
                   <img
