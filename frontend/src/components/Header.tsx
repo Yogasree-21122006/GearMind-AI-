@@ -11,13 +11,16 @@ export const Header: React.FC<HeaderProps> = ({ currentTitle }) => {
   return (
     <header className="h-16 bg-white border-b border-slate-200/80 px-6 flex items-center justify-between sticky top-0 z-20 shadow-xs">
       {/* Title & Breadcrumb */}
-      <div>
-        <div className="flex items-center space-x-2 text-[11px] font-semibold text-slate-400">
-          <span>Maintenance AI</span>
-          <span>/</span>
-          <span className="text-orange-600 font-bold">{currentTitle}</span>
+      <div className="flex items-center space-x-3">
+        <img src="/logo.png" alt="GearMind AI Logo" className="w-8 h-8 rounded-lg object-contain border border-orange-200 bg-white shadow-xs p-0.5" />
+        <div>
+          <div className="flex items-center space-x-2 text-[11px] font-semibold text-slate-400">
+            <span className="text-slate-700 font-bold">GearMind AI</span>
+            <span>/</span>
+            <span className="text-orange-600 font-bold">{currentTitle}</span>
+          </div>
+          <h2 className="text-sm font-bold text-slate-900 tracking-tight">{currentTitle}</h2>
         </div>
-        <h2 className="text-sm font-bold text-slate-900 tracking-tight">{currentTitle}</h2>
       </div>
 
       {/* Global Status & Quick Controls */}

@@ -65,21 +65,24 @@ export const EvaluationDashboard: React.FC = () => {
       )}
 
       {/* Header Banner */}
-      <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-card-subtle">
+      <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-card-subtle">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-violet-700 bg-violet-50 px-2 py-0.5 rounded border border-violet-200">
-                Objective AI Quality Gate & Benchmarks
-              </span>
-              <span className="text-[10px] text-slate-400 font-mono">Academic Diagnostic Suite v2.4</span>
+          <div className="flex items-center space-x-3.5">
+            <img src="/logo.png" alt="GearMind AI" className="w-10 h-10 rounded-xl object-contain border border-orange-200 bg-white shadow-xs p-0.5 flex-shrink-0" />
+            <div>
+              <div className="flex items-center space-x-2">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">
+                  GearMind AI Quality Gate & Benchmarks
+                </span>
+                <span className="text-[10px] text-slate-400 font-mono">Academic Diagnostic Suite v2.4</span>
+              </div>
+              <h2 className="text-sm font-bold text-slate-900 mt-1">
+                Field-Service Assistant AI Evaluation & Safety Audit
+              </h2>
+              <p className="text-xs text-slate-500">
+                Evaluates 20 benchmark test cases across RAG, Vision, Error Catalog, Grounding, Safety, and Latency.
+              </p>
             </div>
-            <h2 className="text-sm font-bold text-slate-900 mt-1">
-              Field-Service Assistant AI Evaluation & Safety Audit
-            </h2>
-            <p className="text-xs text-slate-500">
-              Evaluates 20 benchmark test cases across RAG, Vision, Error Catalog, Grounding, Safety, and Latency.
-            </p>
           </div>
 
           <div className="flex items-center space-x-3">

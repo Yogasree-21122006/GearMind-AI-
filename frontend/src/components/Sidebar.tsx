@@ -9,7 +9,6 @@ import {
   MessageSquareHeart,
   BarChart3,
   Settings,
-  Sparkles,
   Award,
   LogOut
 } from 'lucide-react';
@@ -42,20 +41,20 @@ interface NavGroup {
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, profile, onLogout }) => {
   const navGroups: NavGroup[] = [
     {
-      title: 'COMMAND CENTER',
+      title: 'AI DIAGNOSTIC WORKFLOW',
       items: [
         { key: 'dashboard', label: 'Overview', icon: <LayoutDashboard className="w-4 h-4" /> },
         { key: 'assets', label: 'Equipment & Assets', icon: <Cpu className="w-4 h-4" /> },
-        { key: 'image_upload', label: 'Visual Inspection', icon: <Camera className="w-4 h-4" />, badge: 'AI' },
-        { key: 'diagnostic', label: 'Diagnostic Copilot', icon: <Wrench className="w-4 h-4" />, badge: 'Live' },
+        { key: 'manuals', label: '1. Manual Library (PDF)', icon: <BookOpen className="w-4 h-4" />, badge: 'RAG' },
+        { key: 'image_upload', label: '2. Visual Inspection', icon: <Camera className="w-4 h-4" />, badge: 'Vision' },
+        { key: 'diagnostic', label: '3. Diagnostic Copilot', icon: <Wrench className="w-4 h-4" />, badge: 'Live AI' },
       ],
     },
     {
-      title: 'KNOWLEDGE & AUDIT',
+      title: 'MAINTENANCE & AUDIT',
       items: [
-        { key: 'manuals', label: 'Manual Library', icon: <BookOpen className="w-4 h-4" /> },
-        { key: 'history', label: 'Maintenance History', icon: <History className="w-4 h-4" /> },
-        { key: 'feedback', label: 'Technician Feedback', icon: <MessageSquareHeart className="w-4 h-4" /> },
+        { key: 'history', label: '4. Maintenance History', icon: <History className="w-4 h-4" /> },
+        { key: 'feedback', label: '5. Technician Feedback', icon: <MessageSquareHeart className="w-4 h-4" /> },
       ],
     },
     {
@@ -80,13 +79,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, profil
   return (
     <aside className="w-64 bg-white text-slate-700 flex flex-col flex-shrink-0 border-r border-slate-200 select-none shadow-sm">
       {/* Brand & Command Center Header */}
-      <div className="h-16 flex items-center px-5 border-b border-slate-100 space-x-3 bg-gradient-to-r from-orange-50/50 to-amber-50/30">
-        <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 flex items-center justify-center text-white shadow-orange-glow border border-orange-300 flex-shrink-0">
-          <Sparkles className="w-4 h-4 text-white" />
-        </div>
+      <div className="h-16 flex items-center px-4 border-b border-slate-100 space-x-3 bg-gradient-to-r from-orange-50/50 to-amber-50/30">
+        <img src="/logo.png" alt="GearMind AI Logo" className="w-10 h-10 rounded-xl object-contain border border-orange-200 bg-white shadow-xs flex-shrink-0" />
         <div className="min-w-0">
           <div className="flex items-center space-x-1.5">
-            <h1 className="text-xs font-bold text-slate-900 tracking-wider">MAINTENANCE</h1>
+            <h1 className="text-xs font-black text-slate-900 tracking-wider">GEARMIND</h1>
             <span className="text-[10px] font-bold px-1.5 py-0.5 bg-orange-100 text-orange-800 rounded border border-orange-200">
               AI COPILOT
             </span>

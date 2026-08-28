@@ -14,8 +14,10 @@ import { AlertBanner } from '../components/AlertBanner';
 import { maintenanceService, MaintenanceRecord } from '../services/maintenanceService';
 import { assetService } from '../services/assetService';
 import { Asset } from '../types';
+import { useAuth } from '../context/AuthContext';
 
 export const MaintenanceHistory: React.FC = () => {
+  const { user, profile } = useAuth();
   const [records, setRecords] = useState<MaintenanceRecord[]>([]);
   const [assets, setAssets] = useState<Asset[]>([]);
   const [loading, setLoading] = useState(true);
@@ -71,6 +73,7 @@ export const MaintenanceHistory: React.FC = () => {
         action_taken: actionTaken,
         downtime_minutes: Number(downtime) || 0,
         maintenance_date: new Date().toISOString(),
+        technician_id: profile?.id || user?.id,
       });
       setIsModalOpen(false);
       setIssue('');

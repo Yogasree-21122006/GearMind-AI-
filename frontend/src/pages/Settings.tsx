@@ -11,16 +11,19 @@ export const Settings: React.FC = () => {
         message="Backend API and Supabase pgvector endpoints are configured via environment variables (.env). API keys and service-role secrets remain strictly secured on the server."
       />
 
-      <div className="bg-white border border-slate-200 rounded-lg p-5 shadow-card-subtle space-y-5">
+      <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-card-subtle space-y-5">
         <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-          <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center">
-              <SettingsIcon className="w-3.5 h-3.5 mr-1.5 text-violet-600" />
-              Industrial System & AI Infrastructure Configuration
-            </h3>
-            <p className="text-[10px] text-slate-500 mt-0.5">
-              Live connectivity status for backend microservices and vector indices
-            </p>
+          <div className="flex items-center space-x-3">
+            <img src="/logo.png" alt="GearMind AI" className="w-8 h-8 rounded-lg object-contain border border-orange-200 bg-white shadow-xs p-0.5" />
+            <div>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center">
+                <SettingsIcon className="w-3.5 h-3.5 mr-1.5 text-orange-600" />
+                GearMind Infrastructure & System Architecture
+              </h3>
+              <p className="text-[10px] text-slate-500 mt-0.5">
+                Live connectivity status for backend microservices, Gemini Vision, and pgvector indices
+              </p>
+            </div>
           </div>
           <span className="text-[10px] font-bold px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded flex items-center">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse" /> All Systems Nominal

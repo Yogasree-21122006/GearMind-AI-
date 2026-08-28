@@ -144,13 +144,21 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
     <div className="space-y-6">
       {/* Top Welcome Header & Status */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-1 gap-4">
-        <div>
-          <h1 className="text-xl font-bold text-slate-900 tracking-tight flex items-center">
-            Good afternoon, {technicianName} <span className="ml-2">👋</span>
-          </h1>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Here's your real-time equipment health, autonomous vision telemetry, and active diagnostic sessions.
-          </p>
+        <div className="flex items-center space-x-3.5">
+          <img src="/logo.png" alt="GearMind AI" className="w-12 h-12 rounded-xl object-contain border border-orange-200 bg-white p-1 shadow-card-hover flex-shrink-0" />
+          <div>
+            <div className="flex items-center space-x-2">
+              <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+                Good afternoon, {technicianName} <span className="ml-1">👋</span>
+              </h1>
+              <span className="text-[10px] font-bold px-2 py-0.5 bg-orange-100 text-orange-800 rounded border border-orange-200 uppercase">
+                GearMind Hub
+              </span>
+            </div>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Here's your real-time equipment health, autonomous vision telemetry, and active diagnostic sessions.
+            </p>
+          </div>
         </div>
 
         <div className="flex items-center space-x-2.5">

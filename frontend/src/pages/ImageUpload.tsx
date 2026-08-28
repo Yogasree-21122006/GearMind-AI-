@@ -125,13 +125,11 @@ export const ImageUpload: React.FC = () => {
         <div className="lg:col-span-5 space-y-5">
           <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-card-subtle space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <div className="flex items-center space-x-2">
-                <div className="p-1.5 rounded-lg bg-orange-50 text-orange-600 border border-orange-200">
-                  <Camera className="w-4 h-4" />
-                </div>
+              <div className="flex items-center space-x-2.5">
+                <img src="/logo.png" alt="GearMind AI" className="w-8 h-8 rounded-lg object-contain border border-orange-200 bg-white shadow-xs p-0.5" />
                 <div>
                   <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                    AI Visual Workstation
+                    GearMind Visual Workstation
                   </h3>
                   <p className="text-[10px] text-slate-500">Multimodal inspection configuration</p>
                 </div>

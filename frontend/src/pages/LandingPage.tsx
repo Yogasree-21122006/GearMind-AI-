@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Sparkles,
   Camera,
   BookOpen,
   ArrowRight,
@@ -214,9 +213,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       <nav className="h-18 border-b border-slate-200/80 bg-white/95 backdrop-blur-md sticky top-0 z-50 px-6 sm:px-12 flex items-center justify-between shadow-xs py-3.5">
         {/* Left: Brand Identity */}
         <div className="flex items-center space-x-3.5 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 flex items-center justify-center text-white shadow-orange-glow border border-orange-300">
-            <Sparkles className="w-5 h-5 text-white" />
-          </div>
+          <img src="/logo.png" alt="GearMind AI Logo" className="w-10 h-10 object-contain rounded-xl shadow-xs border border-orange-200 bg-white" />
           <div>
             <div className="flex items-center space-x-2">
               <span className="text-base font-black tracking-wider text-slate-900 uppercase">GEARMIND</span>
@@ -1069,9 +1066,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       <footer className="border-t border-slate-200 bg-white px-6 sm:px-12 py-8 text-sm text-slate-500">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-xl bg-orange-500 text-white flex items-center justify-center font-bold text-sm shadow-xs">
-              G
-            </div>
+            <img src="/logo.png" alt="GearMind AI Logo" className="w-9 h-9 object-contain rounded-xl border border-orange-200 bg-white shadow-xs" />
             <span className="font-bold text-slate-900 text-base uppercase">GearMind AI</span>
             <span className="text-sm text-slate-400 font-medium">• Autonomous Field Service Assistant</span>
           </div>

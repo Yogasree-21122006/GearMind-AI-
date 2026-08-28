@@ -1,4 +1,8 @@
-# Multimodal Field-Service Maintenance Assistant
+<p align="center">
+  <img src="frontend/public/logo.png" width="140" alt="GearMind AI Logo" />
+</p>
+
+# GearMind AI — Multimodal Field-Service Maintenance Assistant
 
 A production-grade, enterprise-ready AI assistant architecture engineered for industrial field-service technicians to diagnose equipment failures, perform multimodal inspection, and execute safety-grounded troubleshooting routines backed by technical manuals and RAG.
 

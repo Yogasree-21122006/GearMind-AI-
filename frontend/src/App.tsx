@@ -6,6 +6,8 @@ import { LandingPage } from './pages/LandingPage';
 import { Login } from './pages/Login';
 import { SignUp } from './pages/SignUp';
 import { ForgotPassword } from './pages/ForgotPassword';
+import { ResetPassword } from './pages/ResetPassword';
+import { EmailConfirmed } from './pages/EmailConfirmed';
 import { Dashboard } from './pages/Dashboard';
 import { Assets } from './pages/Assets';
 import { ImageUpload } from './pages/ImageUpload';
@@ -18,31 +20,73 @@ import { EvaluationDashboard } from './pages/EvaluationDashboard';
 import { Settings } from './pages/Settings';
 import { Loader2 } from 'lucide-react';
 
-type AuthView = 'landing' | 'login' | 'signup' | 'forgot-password' | 'app';
+type AuthView = 'landing' | 'login' | 'signup' | 'forgot-password' | 'reset-password' | 'email-confirmed' | 'app';
 
 const AppContent: React.FC = () => {
-  const { user, profile, loading, signOut } = useAuth();
-  const [authView, setAuthView] = useState<AuthView>('landing');
+  const { user, profile, loading, signOut, isPasswordRecovery, setIsPasswordRecovery } = useAuth();
+  const [authView, setAuthView] = useState<AuthView>(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash || '';
+      const search = window.location.search || '';
+      if (hash.includes('type=recovery') || search.includes('type=recovery')) {
+        return 'reset-password';
+      }
+      if (hash.includes('type=signup') || search.includes('type=signup') || hash.includes('type=email_change')) {
+        return 'email-confirmed';
+      }
+    }
+    return 'landing';
+  });
   const [activeTab, setActiveTab] = useState<TabKey>('dashboard');
+
+  // Sync recovery state with authView
+  useEffect(() => {
+    if (isPasswordRecovery) {
+      setAuthView('reset-password');
+    }
+  }, [isPasswordRecovery]);
 
   // Sync authentication state with views
   useEffect(() => {
     if (!loading) {
-      if (user) {
+      if (user && !isPasswordRecovery && authView !== 'reset-password' && authView !== 'email-confirmed') {
         // If logged in and on login/signup, route to application cockpit
         if (authView === 'login' || authView === 'signup' || authView === 'forgot-password') {
           setAuthView('app');
         }
       }
     }
-  }, [user, loading]);
+  }, [user, loading, isPasswordRecovery, authView]);
 
   if (loading) {
     return (
       <div className="min-h-screen bg-[#07050A] flex flex-col items-center justify-center text-white space-y-4">
-        <Loader2 className="w-10 h-10 text-fuchsia-500 animate-spin" />
-        <p className="text-xs font-mono text-purple-300">Synchronizing Supabase Auth & Copilot Session...</p>
+        <Loader2 className="w-10 h-10 text-orange-500 animate-spin" />
+        <p className="text-xs font-mono text-orange-300">Synchronizing Supabase Auth & Copilot Session...</p>
       </div>
+    );
+  }
+
+  // 0. Dedicated Password Reset View (Triggered via email recovery link)
+  if (authView === 'reset-password' || isPasswordRecovery) {
+    return (
+      <ResetPassword
+        onNavigateToLogin={() => {
+          setIsPasswordRecovery(false);
+          setAuthView('login');
+        }}
+      />
+    );
+  }
+
+  // 0.1 Dedicated Email Confirmation Success View (Triggered via signup email link)
+  if (authView === 'email-confirmed') {
+    return (
+      <EmailConfirmed
+        onNavigateToLogin={() => {
+          setAuthView('login');
+        }}
+      />
     );
   }
 

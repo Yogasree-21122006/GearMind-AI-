@@ -120,21 +120,24 @@ export const DiagnosticAssistant: React.FC = () => {
 
       {/* Cockpit Status Header */}
       <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-card-subtle flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <div className="flex items-center space-x-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-orange-800 bg-orange-50 px-2 py-0.5 rounded border border-orange-200">
-              Autonomous AI Diagnostic Copilot
-            </span>
-            <span className="text-[10px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 font-bold font-mono">
-              LOTO Safety Compliance: 100%
-            </span>
+        <div className="flex items-center space-x-3">
+          <img src="/logo.png" alt="GearMind AI" className="w-10 h-10 rounded-xl object-contain border border-orange-200 bg-white p-0.5 shadow-xs flex-shrink-0" />
+          <div>
+            <div className="flex items-center space-x-2">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-orange-800 bg-orange-50 px-2 py-0.5 rounded border border-orange-200">
+                GearMind AI Diagnostic Copilot
+              </span>
+              <span className="text-[10px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 font-bold font-mono">
+                LOTO Safety Compliance: 100%
+              </span>
+            </div>
+            <h2 className="text-sm font-bold text-slate-900 mt-1">
+              Grounded Fault Diagnosis & Repair Sequence
+            </h2>
+            <p className="text-xs text-slate-500">
+              Selected Target: <span className="font-semibold text-slate-800">{selectedAsset ? `${selectedAsset.name} (${selectedAsset.asset_code || ''})` : 'Select Asset'}</span> • OEM: {selectedAsset?.manufacturer || 'OEM Catalog'}
+            </p>
           </div>
-          <h2 className="text-sm font-bold text-slate-900 mt-1">
-            Grounded Fault Diagnosis & Repair Sequence
-          </h2>
-          <p className="text-xs text-slate-500">
-            Selected Target: <span className="font-semibold text-slate-800">{selectedAsset ? `${selectedAsset.name} (${selectedAsset.asset_code || ''})` : 'Select Asset'}</span> • OEM: {selectedAsset?.manufacturer || 'OEM Catalog'}
-          </p>
         </div>
 
         <div className="flex items-center space-x-2">
@@ -303,20 +306,23 @@ export const DiagnosticAssistant: React.FC = () => {
             <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-card-subtle space-y-5 text-xs">
               {/* Header / Summary */}
               <div className="pb-3 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-orange-50 text-orange-800 border border-orange-200">
-                      Verified AI Diagnostic Report
-                    </span>
-                    {resultData.error_code?.code && (
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300 font-mono">
-                        Error {resultData.error_code.code}
+                <div className="flex items-center space-x-3">
+                  <img src="/logo.png" alt="GearMind AI Report" className="w-8 h-8 rounded-lg object-contain border border-orange-200 bg-white shadow-xs p-0.5 flex-shrink-0" />
+                  <div>
+                    <div className="flex items-center space-x-2">
+                      <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-orange-50 text-orange-800 border border-orange-200">
+                        GearMind AI Verified Diagnostic Report
                       </span>
-                    )}
+                      {resultData.error_code?.code && (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300 font-mono">
+                          Error {resultData.error_code.code}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="text-sm font-bold text-slate-900 mt-1.5 leading-snug">
+                      {resultData.summary}
+                    </h3>
                   </div>
-                  <h3 className="text-sm font-bold text-slate-900 mt-1.5 leading-snug">
-                    {resultData.summary}
-                  </h3>
                 </div>
 
                 <div className="flex items-center space-x-1.5 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 flex-shrink-0">

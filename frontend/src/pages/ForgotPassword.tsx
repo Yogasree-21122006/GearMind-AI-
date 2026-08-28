@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Mail, ArrowRight, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Mail, ArrowRight, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 interface ForgotPasswordProps {
@@ -42,10 +42,8 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onNavigateToLogi
     <div className="min-h-screen bg-[#FAFAFA] text-slate-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8 selection:bg-orange-500 selection:text-white">
       {/* Brand Header */}
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center space-y-2 relative z-10">
-        <div className="inline-flex w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 items-center justify-center text-white shadow-orange-glow border border-orange-300 mb-1">
-          <Sparkles className="w-5 h-5 text-white" />
-        </div>
-        <h2 className="text-xl font-black tracking-tight text-slate-900">Reset Account Password</h2>
+        <img src="/logo.png" alt="GearMind AI Logo" className="w-16 h-16 object-contain rounded-2xl mx-auto border border-orange-200 bg-white shadow-card-hover p-1 mb-2" />
+        <h2 className="text-2xl font-black tracking-tight text-slate-900">Reset Account Password</h2>
         <p className="text-xs text-slate-500 font-medium">
           Enter your registered email address to receive a secure recovery link.
         </p>
