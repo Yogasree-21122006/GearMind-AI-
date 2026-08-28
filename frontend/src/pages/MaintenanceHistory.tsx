@@ -11,6 +11,7 @@ import { StatusBadge } from '../components/StatusBadge';
 import { EmptyState } from '../components/EmptyState';
 import { Modal } from '../components/Modal';
 import { AlertBanner } from '../components/AlertBanner';
+import { SmartLoader } from '../components/SmartLoader';
 import { maintenanceService, MaintenanceRecord } from '../services/maintenanceService';
 import { assetService } from '../services/assetService';
 import { Asset } from '../types';
@@ -128,10 +129,12 @@ export const MaintenanceHistory: React.FC = () => {
       </div>
 
       {loading ? (
-        <div className="py-16 bg-white border border-slate-200 rounded-lg flex flex-col items-center justify-center text-xs text-slate-400 shadow-card-subtle">
-          <Loader2 className="w-6 h-6 animate-spin mb-2 text-violet-600" />
-          Loading maintenance records...
-        </div>
+        <SmartLoader
+          message="Loading Maintenance Records & Work Orders..."
+          subMessage="Fetching historical root causes & corrective actions"
+          duration={2000}
+          variant="card"
+        />
       ) : records.length === 0 ? (
         <EmptyState
           title="No maintenance records found"

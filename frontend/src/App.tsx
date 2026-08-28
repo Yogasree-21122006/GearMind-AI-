@@ -18,7 +18,7 @@ import { Feedback } from './pages/Feedback';
 import { Analytics } from './pages/Analytics';
 import { EvaluationDashboard } from './pages/EvaluationDashboard';
 import { Settings } from './pages/Settings';
-import { Loader2 } from 'lucide-react';
+import { SmartLoader } from './components/SmartLoader';
 
 type AuthView = 'landing' | 'login' | 'signup' | 'forgot-password' | 'reset-password' | 'email-confirmed' | 'app';
 
@@ -60,9 +60,13 @@ const AppContent: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#07050A] flex flex-col items-center justify-center text-white space-y-4">
-        <Loader2 className="w-10 h-10 text-orange-500 animate-spin" />
-        <p className="text-xs font-mono text-orange-300">Synchronizing Supabase Auth & Copilot Session...</p>
+      <div className="min-h-screen bg-[#07050A] flex flex-col items-center justify-center p-4">
+        <SmartLoader
+          message="Synchronizing Supabase Auth & Copilot Session..."
+          subMessage="Verifying credentials, profile security & active session"
+          duration={2500}
+          variant="card"
+        />
       </div>
     );
   }

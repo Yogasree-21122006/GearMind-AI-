@@ -3,6 +3,7 @@ import { StatusBadge } from '../components/StatusBadge';
 import { EmptyState } from '../components/EmptyState';
 import { Modal } from '../components/Modal';
 import { AlertBanner } from '../components/AlertBanner';
+import { SmartLoader } from '../components/SmartLoader';
 import {
   Cpu,
   Plus,
@@ -219,10 +220,12 @@ export const Assets: React.FC = () => {
 
       {/* Asset Display */}
       {loading ? (
-        <div className="py-16 bg-white border border-slate-200 rounded-xl flex flex-col items-center justify-center text-xs text-slate-400 shadow-card-subtle">
-          <Loader2 className="w-6 h-6 animate-spin mb-2 text-orange-500" />
-          Loading industrial assets & telemetry...
-        </div>
+        <SmartLoader
+          message="Loading Industrial Equipment & Telemetry..."
+          subMessage="Fetching asset health, sensor thresholds & active telemetry"
+          duration={2000}
+          variant="card"
+        />
       ) : filteredAssets.length === 0 ? (
         <EmptyState
           title="No equipment assets found"

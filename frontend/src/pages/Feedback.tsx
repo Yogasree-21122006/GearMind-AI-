@@ -12,6 +12,7 @@ import {
 import { AlertBanner } from '../components/AlertBanner';
 import { EmptyState } from '../components/EmptyState';
 import { Modal } from '../components/Modal';
+import { SmartLoader } from '../components/SmartLoader';
 import { feedbackService } from '../services/feedbackService';
 import { diagnosticService } from '../services/diagnosticService';
 import { TechnicianFeedback, DiagnosticSession } from '../types';
@@ -122,10 +123,12 @@ export const Feedback: React.FC = () => {
       </div>
 
       {loading ? (
-        <div className="py-16 bg-white border border-slate-200 rounded-lg flex flex-col items-center justify-center text-xs text-slate-400 shadow-card-subtle">
-          <Loader2 className="w-6 h-6 animate-spin mb-2 text-violet-600" />
-          Loading validation reviews...
-        </div>
+        <SmartLoader
+          message="Loading Technician Validation Reviews..."
+          subMessage="Fetching audit records & human-in-the-loop ratings"
+          duration={2000}
+          variant="card"
+        />
       ) : feedbacks.length === 0 ? (
         <EmptyState
           title="No technician reviews submitted yet"

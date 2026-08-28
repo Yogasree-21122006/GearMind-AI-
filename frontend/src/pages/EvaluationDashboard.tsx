@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { evaluationService, EvaluationSummary, EvaluationCaseResult } from '../services/evaluationService';
 import { AlertBanner } from '../components/AlertBanner';
+import { SmartLoader } from '../components/SmartLoader';
 
 export const EvaluationDashboard: React.FC = () => {
   const [summary, setSummary] = useState<EvaluationSummary | null>(null);
@@ -111,11 +112,20 @@ export const EvaluationDashboard: React.FC = () => {
         </div>
       </div>
 
-      {loading ? (
-        <div className="py-16 bg-white border border-slate-200 rounded-lg flex flex-col items-center justify-center text-xs text-slate-400 shadow-card-subtle">
-          <Loader2 className="w-6 h-6 animate-spin mb-2 text-violet-600" />
-          Loading objective evaluation metrics...
-        </div>
+      {evaluating ? (
+        <SmartLoader
+          message="Executing Benchmark Quality Gate (20 Test Cases)..."
+          subMessage="Evaluating Grounding, Retrieval Accuracy & Vision Latency"
+          duration={3000}
+          variant="card"
+        />
+      ) : loading ? (
+        <SmartLoader
+          message="Loading Objective Evaluation Metrics..."
+          subMessage="Fetching historical benchmark runs & KPI metrics"
+          duration={2000}
+          variant="card"
+        />
       ) : summary ? (
         <>
           {/* Primary Business KPI Hero Card */}
