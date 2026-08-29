@@ -2,10 +2,11 @@ import sys
 import os
 from pathlib import Path
 
-# Add project root directory to sys.path automatically
-ROOT_DIR = Path(__file__).resolve().parent.parent.parent
-if str(ROOT_DIR) not in sys.path:
-    sys.path.insert(0, str(ROOT_DIR))
+# Ensure all parent directories and current directory are in sys.path
+CURRENT_FILE = Path(__file__).resolve()
+for p in [CURRENT_FILE.parent, CURRENT_FILE.parent.parent, CURRENT_FILE.parent.parent.parent]:
+    if str(p) not in sys.path:
+        sys.path.insert(0, str(p))
 
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, status
