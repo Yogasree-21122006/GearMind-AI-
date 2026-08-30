@@ -1,83 +1,148 @@
+# ⚙️ GearMind AI — Multimodal Field-Service Maintenance Assistant
+
 <p align="center">
-  <img src="frontend/public/logo.png" width="140" alt="GearMind AI Logo" />
+  <img src="frontend/public/logo.png" width="130" alt="GearMind AI Logo" />
 </p>
 
-# GearMind AI — Multimodal Field-Service Maintenance Assistant
+<p align="center">
+  <b>Diagnose Machinery Problems Before They Become Downtime.</b><br />
+  An enterprise-grade, multimodal AI copilot built for industrial field-service technicians to diagnose equipment failures, perform image/sensor inspections, retrieve OEM manuals via RAG, and execute safety-verified troubleshooting workflows.
+</p>
 
-A production-grade, enterprise-ready AI assistant architecture engineered for industrial field-service technicians to diagnose equipment failures, perform multimodal inspection, and execute safety-grounded troubleshooting routines backed by technical manuals and RAG.
-
----
-
-## 1. System Architecture Overview
-
-```
-+-------------------------------------------------------------------------+
-|                               FRONTEND                                  |
-|  React 18 + TypeScript + Vite + Tailwind CSS                            |
-|  - Diagnostic Assistant Cockpit & Safety Verifier                       |
-|  - Asset Inventory & Status Tracker                                     |
-|  - Technical Manuals Library & Processing Pipeline                      |
-|  - Maintenance History & Analytical Reports                             |
-+------------------------------------+------------------------------------+
-                                     | REST API (JSON / FormData)
-                                     v
-+------------------------------------+------------------------------------+
-|                            FASTAPI BACKEND                              |
-|  - API Gateway / Modular Routers (`app/api/v1`)                         |
-|  - Validation Layer (Pydantic v2 Models & Schemas)                      |
-|  - Service Orchestration Layer (`app/services`)                         |
-|  - Data Access & Storage Layer (`app/repositories`)                     |
-+------------------------------------+------------------------------------+
-                   |                                       |
-                   v                                       v
-+------------------------------------+   +--------------------------------+
-|       SUPABASE CLOUD / POSTGRES    |   |     MULTIMODAL AI & RAG        |
-|  - Relational Schema (PostgreSQL)  |   |  - Multimodal Vision Engine    |
-|  - pgvector Dense Indexing (HNSW)  |   |  - Embedding Engine            |
-|  - Object Storage (Images/Manuals) |   |  - Vector Search & Reranker    |
-|  - Row-Level Security (RLS)        |   |  - Grounded Chain-of-Thought   |
-+------------------------------------+   +--------------------------------+
-```
+<p align="center">
+  <a href="https://gear-mind-ai-delta.vercel.app/"><img src="https://img.shields.io/badge/🚀_Live_Production_Demo-gear--mind--ai--delta.vercel.app-00DC82?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo"></a>
+  <br /><br />
+  <img src="https://img.shields.io/badge/Developer-Yoga%20Sree%20S-FF6B00?style=flat-square&logo=github&logoColor=white" alt="Developer">
+  <img src="https://img.shields.io/badge/Frontend-React%2018%20%7C%20TypeScript%20%7C%20Vite%20%7C%20Tailwind-3178C6?style=flat-square" alt="Frontend">
+  <img src="https://img.shields.io/badge/Backend-FastAPI%20%7C%20Python%203.11-009688?style=flat-square&logo=fastapi&logoColor=white" alt="Backend">
+  <img src="https://img.shields.io/badge/Database-Supabase%20PostgreSQL%20%2B%20pgvector-3ECF8E?style=flat-square&logo=supabase&logoColor=white" alt="Database">
+  <img src="https://img.shields.io/badge/AI_Engine-Gemini%201.5%20Pro%20%7C%20Vision%20%7C%20Embeddings-8E75B2?style=flat-square&logo=google&logoColor=white" alt="AI Engine">
+</p>
 
 ---
 
-## 2. Directory Structure
+## 🌐 Live Deployment
+
+| Component | URL | Status |
+| :--- | :--- | :--- |
+| **Production Web Application** | **[https://gear-mind-ai-delta.vercel.app/](https://gear-mind-ai-delta.vercel.app/)** | 🟢 **Live & Active** |
+| **Authentication Flow** | Supported with **Secure Email Confirmation** via Custom SMTP | 🟢 **Active** |
+
+---
+
+## 👨‍💻 Developer & Author
+
+- **Lead Developer**: **Yoga Sree S**
+- **Project**: GearMind AI — Field Service Maintenance Platform
+
+---
+
+## 🚀 Key Features & System Capabilities
+
+### 1. 🔍 Multimodal Diagnostic Assistant Cockpit
+- **Interactive Multi-Turn Reasoning**: Field technicians input machine symptoms, error codes, and operational telemetry.
+- **Multimodal Visual Inspection**: Upload equipment photos, thermal images, nameplates, and gauge dials for automated defect detection, OCR extraction, and wear assessment.
+- **Root Cause & Confidence Scoring**: Outputs structured fault hypotheses with percentage confidence and severity ratings.
+
+### 2. 📚 RAG (Retrieval-Augmented Generation) & OEM Manual Grounding
+- **Dense Vector Search**: Powered by `pgvector` with HNSW cosine similarity search.
+- **Page-Level Manual Citations**: Every diagnostic recommendation cites exact page numbers, section headers, and OEM manuals (e.g. *Flowserve Mark 3 Pump Manual, Section 5.4*).
+- **Anti-Hallucination Guardrails**: Cross-references symptoms directly with technical documentation before generating guidance.
+
+### 3. 🛡️ Safety-First Verification & LOTO Protocols
+- **Pre-Execution Safety Verification**: Enforces Lockout/Tagout (LOTO), electrical hazard isolation, PPE compliance, and pressure relief checks prior to repair steps.
+- **Warning & Hazard Alerts**: Color-coded safety tags (High/Medium/Low) prevent accidental technician injury and machine damage.
+
+### 4. 🔐 Enterprise Authentication & Email Verification Flow
+- **Supabase Authentication**: Secure JWT-based auth supporting multi-role access (`technician`, `senior_engineer`, `supervisor`, `admin`).
+- **Real-Time Email Confirmation**: Custom SMTP delivery with dedicated confirmation verification screen (`/email-confirmed`).
+- **Self-Service Password Recovery**: Secure password reset flow with token-based authentication.
+
+### 5. 🏭 Asset Inventory & Fleet Health Tracking
+- **Equipment Registry**: Real-time management of pumps, compressors, turbines, motors, and conveyor systems.
+- **Operational Metrics**: Visual status badges (Operational, Warning, Critical, Offline), serial numbers, and maintenance schedules.
+- **QR / Barcode Identification**: Quick lookup for field assets.
+
+### 6. 📊 GenAI Evaluation Dashboard & Analytics
+- **Evaluation Metrics**: Faithfulness, Answer Relevance, Context Precision, and Hallucination Index scoring.
+- **Interactive Visualizations**: Radar capability charts, latency distribution histograms, and diagnostic accuracy trends.
+- **Exportable Reports**: Generate detailed audit reports for safety leads and maintenance supervisors.
+
+### 7. 📝 Human-in-the-Loop Feedback Engine
+- **Field Engineer Ratings**: Technicians can upvote/downvote AI diagnostic steps, confirm root cause accuracy, and log field adjustments.
+- **Continuous Learning Loop**: Feedback metrics directly inform prompt refinement and knowledge retrieval updates.
+
+---
+
+## 🏗️ System Architecture
+
+```
++---------------------------------------------------------------------------------+
+|                                 WEB FRONTEND                                    |
+|  React 18 + TypeScript + Vite + Tailwind CSS                                    |
+|  - Modern Dark / Clean Enterprise Glassmorphism UI                              |
+|  - Diagnostic Assistant & Multimodal Vision Inspector                           |
+|  - Asset Catalog, Manual Library, Analytics & Evaluation Dashboard              |
+|  - Secure Auth with Real-Time SMTP Email Confirmation Flow                      |
++----------------------------------------+----------------------------------------+
+                                         | REST API / JSON / Multipart
+                                         v
++---------------------------------------------------------------------------------+
+|                                FASTAPI BACKEND                                  |
+|  - Modular API Routers: `/api/v1/diagnostics`, `/assets`, `/manuals`, etc.      |
+|  - Pydantic v2 Strict Validation & Data Layer Repositories                      |
+|  - Service Orchestration & Vision Analysis Pipeline                             |
++----------------------------------------+----------------------------------------+
+                    |                                         |
+                    v                                         v
++----------------------------------------+   +------------------------------------+
+|       SUPABASE POSTGRESQL CLOUD        |   |       MULTIMODAL AI & RAG          |
+|  - Relational Schema & Tables          |   |  - Google Gemini 1.5 Pro Vision    |
+|  - pgvector HNSW Vector Indexing       |   |  - Text Embeddings (768-dim)       |
+|  - Secure Object Storage for Manuals   |   |  - RAG Retrieval & Context Scoring |
+|  - Custom SMTP Mail Dispatcher         |   |  - Safety Verification Engine      |
++----------------------------------------+   +------------------------------------+
+```
+
+---
+
+## 📁 Repository Directory Structure
 
 ```
 .
-├── backend/
+├── backend/                              # FastAPI Python Backend Service
 │   ├── app/
-│   │   ├── api/
-│   │   │   └── v1/
-│   │   │       ├── analytics.py
-│   │   │       ├── assets.py
-│   │   │       ├── diagnostics.py
-│   │   │       ├── error_codes.py
-│   │   │       ├── feedback.py
-│   │   │       ├── health.py
-│   │   │       ├── manuals.py
-│   │   │       └── router.py
-│   │   ├── ai/
+│   │   ├── ai/                           # AI Orchestrator & Agents
 │   │   │   └── orchestrator.py
-│   │   ├── core/
+│   │   ├── api/                          # Versioned API Endpoints (v1)
+│   │   │   └── v1/
+│   │   │       ├── analytics.py          # Fleet analytics & metrics
+│   │   │       ├── assets.py             # Asset management CRUD
+│   │   │       ├── diagnostics.py        # Diagnostic sessions & RAG query
+│   │   │       ├── error_codes.py        # DTC error code catalog
+│   │   │       ├── feedback.py           # Human feedback logging
+│   │   │       ├── health.py             # Health check probe
+│   │   │       ├── manuals.py            # PDF manual upload & processing
+│   │   │       └── router.py             # Main v1 API aggregator
+│   │   ├── core/                         # Configuration & Security
 │   │   │   ├── config.py
 │   │   │   └── security.py
-│   │   ├── database/
+│   │   ├── database/                     # DB session & Supabase Client
 │   │   │   ├── session.py
 │   │   │   └── supabase_client.py
-│   │   ├── models/
+│   │   ├── models/                       # SQLAlchemy Database Entities
 │   │   │   ├── base.py
 │   │   │   └── entities.py
-│   │   ├── rag/
+│   │   ├── rag/                          # Text Chunker & Vector Retriever
 │   │   │   ├── chunker.py
 │   │   │   └── retriever.py
-│   │   ├── repositories/
+│   │   ├── repositories/                 # Data Access Object (DAO) Pattern
 │   │   │   ├── asset_repo.py
 │   │   │   ├── base_repo.py
 │   │   │   ├── diagnostic_repo.py
 │   │   │   ├── feedback_repo.py
 │   │   │   └── manual_repo.py
-│   │   ├── schemas/
+│   │   ├── schemas/                      # Pydantic Request/Response Models
 │   │   │   ├── asset.py
 │   │   │   ├── common.py
 │   │   │   ├── diagnostic.py
@@ -85,24 +150,26 @@ A production-grade, enterprise-ready AI assistant architecture engineered for in
 │   │   │   ├── feedback.py
 │   │   │   ├── manual.py
 │   │   │   └── user.py
-│   │   ├── services/
+│   │   ├── services/                     # Business Logic Services
 │   │   │   ├── asset_service.py
 │   │   │   ├── diagnostic_service.py
 │   │   │   ├── feedback_service.py
 │   │   │   ├── manual_service.py
 │   │   │   └── storage_service.py
-│   │   ├── utils/
+│   │   ├── utils/                        # Custom Exceptions & Logging
 │   │   │   ├── exceptions.py
 │   │   │   └── logger.py
-│   │   ├── vision/
+│   │   ├── vision/                       # Image & OCR Analyzer
 │   │   │   └── analyzer.py
-│   │   └── main.py
-│   ├── .env.example
+│   │   └── main.py                       # FastAPI Application Entrypoint
+│   ├── .env.example                      # Template for backend environment variables
 │   ├── Dockerfile
-│   └── requirements.txt
-├── frontend/
+│   └── requirements.txt                  # Python dependencies
+│
+├── frontend/                             # React 18 TypeScript Web Application
 │   ├── src/
-│   │   ├── components/
+│   │   ├── assets/                       # Static branding & images
+│   │   ├── components/                   # Reusable UI Components
 │   │   │   ├── AlertBanner.tsx
 │   │   │   ├── EmptyState.tsx
 │   │   │   ├── Header.tsx
@@ -110,201 +177,130 @@ A production-grade, enterprise-ready AI assistant architecture engineered for in
 │   │   │   ├── Sidebar.tsx
 │   │   │   ├── StatCard.tsx
 │   │   │   └── StatusBadge.tsx
-│   │   ├── hooks/
+│   │   ├── context/                      # State Management (AuthContext, etc.)
+│   │   │   └── AuthContext.tsx
+│   │   ├── hooks/                        # Custom React Hooks
 │   │   │   └── useAsync.ts
-│   │   ├── layouts/
+│   │   ├── layouts/                      # Layout Shells (AuthLayout, MainLayout)
 │   │   │   ├── AuthLayout.tsx
 │   │   │   └── MainLayout.tsx
-│   │   ├── pages/
-│   │   │   ├── Analytics.tsx
-│   │   │   ├── Assets.tsx
-│   │   │   ├── Dashboard.tsx
-│   │   │   ├── DiagnosticAssistant.tsx
-│   │   │   ├── Feedback.tsx
-│   │   │   ├── ImageUpload.tsx
-│   │   │   ├── Login.tsx
-│   │   │   ├── MaintenanceHistory.tsx
-│   │   │   ├── ManualLibrary.tsx
-│   │   │   └── Settings.tsx
-│   │   ├── services/
+│   │   ├── lib/                          # Third-party Clients (Supabase)
+│   │   │   └── supabase.ts
+│   │   ├── pages/                        # Application Views & Pages
+│   │   │   ├── Analytics.tsx             # Performance metrics & reports
+│   │   │   ├── Assets.tsx                # Industrial machine inventory
+│   │   │   ├── Dashboard.tsx             # Technician overview cockpit
+│   │   │   ├── DiagnosticAssistant.tsx   # AI Copilot & step-by-step troubleshooter
+│   │   │   ├── EmailConfirmed.tsx        # Email activation success screen
+│   │   │   ├── EvaluationDashboard.tsx   # GenAI RAG evaluation & radar benchmarks
+│   │   │   ├── Feedback.tsx              # Diagnostic rating & validation
+│   │   │   ├── ForgotPassword.tsx        # Password reset initiation
+│   │   │   ├── ImageUpload.tsx           # Multimodal inspection & OCR
+│   │   │   ├── LandingPage.tsx           # Product showcase landing page
+│   │   │   ├── Login.tsx                 # Technician authentication
+│   │   │   ├── MaintenanceHistory.tsx    # Past repairs & service logs
+│   │   │   ├── ManualLibrary.tsx         # OEM manuals & schematic library
+│   │   │   ├── ResetPassword.tsx         # New password submission
+│   │   │   ├── Settings.tsx              # User preferences & profile
+│   │   │   └── SignUp.tsx                # User registration & verification
+│   │   ├── services/                     # Frontend API Clients
 │   │   │   ├── api.ts
 │   │   │   ├── assetService.ts
 │   │   │   ├── diagnosticService.ts
 │   │   │   ├── feedbackService.ts
 │   │   │   └── manualService.ts
-│   │   ├── types/
+│   │   ├── types/                        # TypeScript Type Definitions
 │   │   │   ├── asset.ts
 │   │   │   ├── diagnostic.ts
 │   │   │   ├── feedback.ts
 │   │   │   ├── index.ts
 │   │   │   └── manual.ts
-│   │   ├── utils/
+│   │   ├── utils/                        # Helpers, Formatters & Constants
 │   │   │   ├── constants.ts
 │   │   │   └── formatters.ts
-│   │   ├── App.tsx
-│   │   ├── index.css
-│   │   └── main.tsx
-│   ├── .env.example
-│   ├── Dockerfile
+│   │   ├── App.tsx                       # App Router & Auth State Controller
+│   │   ├── index.css                     # Global styles & Tailwind utilities
+│   │   └── main.tsx                      # Vite React entrypoint
+│   ├── .env.example                      # Template for frontend environment variables
 │   ├── index.html
 │   ├── package.json
-│   ├── postcss.config.js
 │   ├── tailwind.config.js
 │   ├── tsconfig.json
-│   ├── tsconfig.node.json
 │   └── vite.config.ts
-├── genai/
-│   ├── agents/
+│
+├── genai/                                # GenAI Core Engine
+│   ├── agents/                           # Multi-agent autonomous technician solver
 │   │   └── technician_agent.py
-│   ├── embeddings/
+│   ├── embeddings/                       # Embedding generators
 │   │   └── base.py
-│   ├── evaluation/
+│   ├── evaluation/                       # RAG & hallucination evaluation suite
 │   │   └── evaluator.py
-│   ├── prompts/
+│   ├── prompts/                          # System prompts & safety templates
 │   │   ├── citation_prompt.py
 │   │   ├── diagnostic_prompt.py
 │   │   └── vision_prompt.py
-│   ├── rag/
+│   ├── rag/                              # Ingestion & chunking pipeline
 │   │   └── pipeline.py
-│   └── vision/
+│   └── vision/                           # Visual defect classifier & OCR
 │       └── inspector.py
-├── database/
-│   └── schema.sql
-├── data/
-│   ├── raw/
-│   └── processed/
-├── docs/
-│   ├── api_spec.md
-│   ├── architecture.md
-│   └── database_schema.md
-├── tests/
+│
+├── database/                             # Database Schema & Migrations
+│   └── schema.sql                        # PostgreSQL table DDL & pgvector configuration
+├── docs/                                 # Technical Documentation
+│   ├── api_spec.md                       # OpenAPI route specifications
+│   ├── architecture.md                   # System design & component diagrams
+│   ├── authentication-implementation.md  # Auth flow & email confirmation docs
+│   └── database_schema.md                # Entity relationship documentation
+├── scripts/                              # Integration & verification scripts
+│   └── run_demo_integration.py           # End-to-end integration demo script
+├── tests/                                # Test Suites
 │   ├── backend/
-│   │   └── test_health.py
 │   └── frontend/
-├── .env.example
-├── .gitignore
-├── docker-compose.yml
-└── README.md
+├── docker-compose.yml                    # Multi-container orchestration
+└── README.md                             # Project Documentation
 ```
 
 ---
 
-## 3. Technology Choices
+## 🛠️ Local Development Setup
 
-| Component | Technology | Rationale |
-| :--- | :--- | :--- |
-| **Frontend Framework** | React 18 + TypeScript + Vite | Rapid compile times, strict type safety, modular component hierarchy. |
-| **Styling** | Tailwind CSS | Clean, custom enterprise UI design system without third-party theme lock-in. |
-| **Backend Framework** | FastAPI (Python 3.11) | High asynchronous throughput, native OpenAPI/Swagger generation, Pydantic v2 validation. |
-| **Relational & Vector DB** | Supabase PostgreSQL + `pgvector` | Unified storage for business entities and dense document embeddings with HNSW indexing. |
-| **Object Storage** | Supabase Storage | Scalable, access-controlled bucket storage for high-resolution images and PDF manuals. |
-| **AI Layer Structure** | Modular GenAI Package | Decoupled prompts, embeddings, multimodal vision analyzer, and RAG evaluation harnesses. |
-
----
-
-## 4. Database Planning & Entity Relationships
-
-The PostgreSQL database schema is defined in [`database/schema.sql`](database/schema.sql) and includes:
-1. **`technicians`**: Field engineers and operators with role/certification profiles.
-2. **`assets`**: Industrial machinery with serial numbers, facility locations, and status.
-3. **`asset_images`**: Inspection photos and thermal scans linked to assets and technician uploads.
-4. **`error_codes`**: Diagnostic Trouble Code (DTC) catalog with standard OEM resolution steps.
-5. **`maintenance_records`**: Work order history, root cause analyses, and actions taken.
-6. **`manuals`**: Technical PDF manuals and electrical schematics.
-7. **`document_chunks`**: Text chunks with `vector(768)` embedding and HNSW cosine similarity index.
-8. **`diagnostic_sessions`**: Active troubleshooting sessions opened by field technicians.
-9. **`diagnostic_results`**: AI outputs containing hypotheses, step-by-step sequences, safety warnings, and citations.
-10. **`technician_feedback`**: Human-in-the-loop ratings and validation logs.
-
----
-
-## 5. Environment Variables
-
-Create `.env` at root or in `backend/` and `frontend/` using `.env.example`:
-
+### 1. Backend Setup
 ```bash
-# Application Environment
-ENVIRONMENT=development
-LOG_LEVEL=INFO
-PORT=8000
-
-# Supabase Credentials
-SUPABASE_URL=https://your-project-id.supabase.co
-SUPABASE_ANON_KEY=your-supabase-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
-DATABASE_URL=postgresql://postgres:your_password@db.your-project-id.supabase.co:5432/postgres
-
-# AI / LLM Configuration
-LLM_PROVIDER=gemini
-LLM_API_KEY=your-llm-api-key
-LLM_MODEL=gemini-1.5-pro
-EMBEDDING_PROVIDER=gemini
-EMBEDDING_API_KEY=your-embedding-api-key
-EMBEDDING_MODEL=text-embedding-004
-EMBEDDING_DIMENSION=768
-
-# Storage Buckets
-SUPABASE_STORAGE_BUCKET_IMAGES=equipment-images
-SUPABASE_STORAGE_BUCKET_DOCS=manuals-and-docs
-
-# Security
-ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000
-JWT_SECRET_KEY=your-jwt-secret-key
-```
-
----
-
-## 6. How to Run the Backend
-
-```bash
-# 1. Navigate to backend directory
+# Navigate to backend folder
 cd backend
 
-# 2. Create and activate a Python virtual environment
+# Create and activate virtual environment
 python -m venv venv
 # On Windows:
 venv\Scripts\activate
 # On macOS/Linux:
 source venv/bin/activate
 
-# 3. Install dependencies
+# Install required packages
 pip install -r requirements.txt
 
-# 4. Copy environment configuration
-cp .env.example .env
-
-# 5. Launch FastAPI development server (from project root)
-uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8000
-# OR if inside the backend/ folder:
+# Start FastAPI development server
 uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
-- API Documentation: [http://localhost:8000/docs](http://localhost:8000/docs)
+- Interactive Swagger API Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
 - Health Check: [http://localhost:8000/api/v1/health](http://localhost:8000/api/v1/health)
 
----
-
-## 7. How to Run the Frontend
-
+### 2. Frontend Setup
 ```bash
-# 1. Navigate to frontend directory
+# Navigate to frontend folder
 cd frontend
 
-# 2. Install dependencies
+# Install dependencies
 npm install
 
-# 3. Copy environment configuration
-cp .env.example .env
-
-# 4. Start Vite development server
+# Run Vite development server
 npm run dev
 ```
-- Frontend UI: [http://localhost:5173](http://localhost:5173)
+- Local Web Interface: [http://localhost:5173](http://localhost:5173)
 
 ---
 
-## 8. What is Intentionally NOT Implemented Yet
+## 📄 License & Attribution
 
-In strict accordance with the foundation phase requirements:
-- **No Mock / Hallucinated AI Responses**: Live LLM reasoning inference and prompt execution are scaffolded as structured interfaces in `backend/app/ai/`, `genai/`, and `backend/app/vision/` ready for active integration.
-- **No Fake Data Injection**: The database schema and entities are designed cleanly without inserting artificial mock rows.
-- **RAG Text Extraction & Vector Generation Engine**: PDF parsing (`pypdf`), chunking tokenizers, and embedding ingestion pipelines are mapped out as interfaces to be wired to the live LLM API keys in the AI phase.
+Developed with ❤️ by **Yoga Sree S** for industrial field technicians and engineering teams.  
+All rights reserved © 2026 GearMind AI.
